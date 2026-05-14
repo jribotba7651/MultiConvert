@@ -1,0 +1,900 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00000000000000000000004C /* MultiConvertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000031 /* MultiConvertApp.swift */; };
+		00000000000000000000004D /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000032 /* AppState.swift */; };
+		00000000000000000000004E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000033 /* Currency.swift */; };
+		00000000000000000000004F /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* CurrencyRate.swift */; };
+		000000000000000000000050 /* RateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000035 /* RateProvider.swift */; };
+		000000000000000000000051 /* FiatProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000036 /* FiatProvider.swift */; };
+		000000000000000000000052 /* CryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000037 /* CryptoProvider.swift */; };
+		000000000000000000000053 /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
+		000000000000000000000054 /* ConversionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000039 /* ConversionEngine.swift */; };
+		000000000000000000000055 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003A /* Theme.swift */; };
+		000000000000000000000056 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003B /* CurrencyFormatter.swift */; };
+		000000000000000000000057 /* MRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003C /* MRUCache.swift */; };
+		000000000000000000000058 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003D /* ContentView.swift */; };
+		000000000000000000000059 /* ConversionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003E /* ConversionListView.swift */; };
+		00000000000000000000005A /* ConversionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003F /* ConversionRowView.swift */; };
+		00000000000000000000005B /* NumericKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000040 /* NumericKeypad.swift */; };
+		00000000000000000000005C /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000041 /* CurrencyPickerView.swift */; };
+		00000000000000000000005D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000042 /* SettingsView.swift */; };
+		00000000000000000000005E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004A /* Assets.xcassets */; };
+		00000000000000000000005F /* ConversionMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000043 /* ConversionMathTests.swift */; };
+		000000000000000000000060 /* MRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000044 /* MRUCacheTests.swift */; };
+		000000000000000000000061 /* CacheStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000045 /* CacheStalenessTests.swift */; };
+		000000000000000000000062 /* CurrencyFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000046 /* CurrencyFormattingTests.swift */; };
+		000000000000000000000063 /* MultiConvertUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000047 /* MultiConvertUITests.swift */; };
+		000000000000000000000064 /* MultiConvertWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000048 /* MultiConvertWidgetBundle.swift */; };
+		000000000000000000000065 /* MultiConvertWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000049 /* MultiConvertWidget.swift */; };
+		000000000000000000000066 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004B /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00000000000000000000002A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000030 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000004;
+			remoteInfo = MultiConvertWidget;
+		};
+		00000000000000000000002C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000030 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000001;
+			remoteInfo = MultiConvert;
+		};
+		00000000000000000000002E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000030 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000001;
+			remoteInfo = MultiConvert;
+		};
+/* End PBXContainerItemProxy section */
+/* Begin PBXTargetDependency section */
+		00000000000000000000002B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000004 /* MultiConvertWidget */;
+			targetProxy = 00000000000000000000002A /* PBXContainerItemProxy */;
+		};
+		00000000000000000000002D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000001 /* MultiConvert */;
+			targetProxy = 00000000000000000000002C /* PBXContainerItemProxy */;
+		};
+		00000000000000000000002F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000001 /* MultiConvert */;
+			targetProxy = 00000000000000000000002E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXFileReference section */
+		000000000000000000000031 /* MultiConvertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertApp.swift"; sourceTree = "<group>"; };
+		000000000000000000000032 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState.swift"; sourceTree = "<group>"; };
+		000000000000000000000033 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency.swift"; sourceTree = "<group>"; };
+		000000000000000000000034 /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyRate.swift"; sourceTree = "<group>"; };
+		000000000000000000000035 /* RateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateProvider.swift"; sourceTree = "<group>"; };
+		000000000000000000000036 /* FiatProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FiatProvider.swift"; sourceTree = "<group>"; };
+		000000000000000000000037 /* CryptoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CryptoProvider.swift"; sourceTree = "<group>"; };
+		000000000000000000000038 /* RateCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateCache.swift"; sourceTree = "<group>"; };
+		000000000000000000000039 /* ConversionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversionEngine.swift"; sourceTree = "<group>"; };
+		00000000000000000000003A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme.swift"; sourceTree = "<group>"; };
+		00000000000000000000003B /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyFormatter.swift"; sourceTree = "<group>"; };
+		00000000000000000000003C /* MRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MRUCache.swift"; sourceTree = "<group>"; };
+		00000000000000000000003D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView.swift"; sourceTree = "<group>"; };
+		00000000000000000000003E /* ConversionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversionListView.swift"; sourceTree = "<group>"; };
+		00000000000000000000003F /* ConversionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversionRowView.swift"; sourceTree = "<group>"; };
+		000000000000000000000040 /* NumericKeypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumericKeypad.swift"; sourceTree = "<group>"; };
+		000000000000000000000041 /* CurrencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyPickerView.swift"; sourceTree = "<group>"; };
+		000000000000000000000042 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
+		000000000000000000000043 /* ConversionMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversionMathTests.swift"; sourceTree = "<group>"; };
+		000000000000000000000044 /* MRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MRUCacheTests.swift"; sourceTree = "<group>"; };
+		000000000000000000000045 /* CacheStalenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CacheStalenessTests.swift"; sourceTree = "<group>"; };
+		000000000000000000000046 /* CurrencyFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyFormattingTests.swift"; sourceTree = "<group>"; };
+		000000000000000000000047 /* MultiConvertUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertUITests.swift"; sourceTree = "<group>"; };
+		000000000000000000000048 /* MultiConvertWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidgetBundle.swift"; sourceTree = "<group>"; };
+		000000000000000000000049 /* MultiConvertWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidget.swift"; sourceTree = "<group>"; };
+		00000000000000000000004A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		00000000000000000000004B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		000000000000000000000067 /* MultiConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000068 /* MultiConvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000069 /* MultiConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000006A /* MultiConvertWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MultiConvertWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		00000000000000000000001E = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000001F /* MultiConvert */,
+				000000000000000000000026 /* MultiConvertTests */,
+				000000000000000000000027 /* MultiConvertUITests */,
+				000000000000000000000028 /* MultiConvertWidget */,
+				000000000000000000000029 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		000000000000000000000029 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000067 /* MultiConvert.app */,
+				000000000000000000000068 /* MultiConvertTests.xctest */,
+				000000000000000000000069 /* MultiConvertUITests.xctest */,
+				00000000000000000000006A /* MultiConvertWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00000000000000000000001F /* MultiConvert */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000020 /* App */,
+				000000000000000000000021 /* Models */,
+				000000000000000000000022 /* Services */,
+				000000000000000000000023 /* Utilities */,
+				000000000000000000000024 /* Views */,
+				000000000000000000000025 /* Resources */,
+			);
+			path = MultiConvert;
+			sourceTree = "<group>";
+		};
+		000000000000000000000020 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000031 /* MultiConvertApp.swift */,
+				000000000000000000000032 /* AppState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		000000000000000000000021 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000033 /* Currency.swift */,
+				000000000000000000000034 /* CurrencyRate.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		000000000000000000000022 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000035 /* RateProvider.swift */,
+				000000000000000000000036 /* FiatProvider.swift */,
+				000000000000000000000037 /* CryptoProvider.swift */,
+				000000000000000000000038 /* RateCache.swift */,
+				000000000000000000000039 /* ConversionEngine.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		000000000000000000000023 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000003A /* Theme.swift */,
+				00000000000000000000003B /* CurrencyFormatter.swift */,
+				00000000000000000000003C /* MRUCache.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		000000000000000000000024 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000003D /* ContentView.swift */,
+				00000000000000000000003E /* ConversionListView.swift */,
+				00000000000000000000003F /* ConversionRowView.swift */,
+				000000000000000000000040 /* NumericKeypad.swift */,
+				000000000000000000000041 /* CurrencyPickerView.swift */,
+				000000000000000000000042 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		000000000000000000000025 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000004A /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		000000000000000000000026 /* MultiConvertTests */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000043 /* ConversionMathTests.swift */,
+				000000000000000000000044 /* MRUCacheTests.swift */,
+				000000000000000000000045 /* CacheStalenessTests.swift */,
+				000000000000000000000046 /* CurrencyFormattingTests.swift */,
+			);
+			path = MultiConvertTests;
+			sourceTree = "<group>";
+		};
+		000000000000000000000027 /* MultiConvertUITests */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000047 /* MultiConvertUITests.swift */,
+			);
+			path = MultiConvertUITests;
+			sourceTree = "<group>";
+		};
+		000000000000000000000028 /* MultiConvertWidget */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000048 /* MultiConvertWidgetBundle.swift */,
+				000000000000000000000049 /* MultiConvertWidget.swift */,
+				00000000000000000000004B /* Assets.xcassets */,
+			);
+			path = MultiConvertWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXSourcesBuildPhase section */
+		000000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000000004C /* MultiConvertApp.swift in Sources */,
+				00000000000000000000004D /* AppState.swift in Sources */,
+				00000000000000000000004E /* Currency.swift in Sources */,
+				00000000000000000000004F /* CurrencyRate.swift in Sources */,
+				000000000000000000000050 /* RateProvider.swift in Sources */,
+				000000000000000000000051 /* FiatProvider.swift in Sources */,
+				000000000000000000000052 /* CryptoProvider.swift in Sources */,
+				000000000000000000000053 /* RateCache.swift in Sources */,
+				000000000000000000000054 /* ConversionEngine.swift in Sources */,
+				000000000000000000000055 /* Theme.swift in Sources */,
+				000000000000000000000056 /* CurrencyFormatter.swift in Sources */,
+				000000000000000000000057 /* MRUCache.swift in Sources */,
+				000000000000000000000058 /* ContentView.swift in Sources */,
+				000000000000000000000059 /* ConversionListView.swift in Sources */,
+				00000000000000000000005A /* ConversionRowView.swift in Sources */,
+				00000000000000000000005B /* NumericKeypad.swift in Sources */,
+				00000000000000000000005C /* CurrencyPickerView.swift in Sources */,
+				00000000000000000000005D /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000000005F /* ConversionMathTests.swift in Sources */,
+				000000000000000000000060 /* MRUCacheTests.swift in Sources */,
+				000000000000000000000061 /* CacheStalenessTests.swift in Sources */,
+				000000000000000000000062 /* CurrencyFormattingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000000A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000063 /* MultiConvertUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000000C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000064 /* MultiConvertWidgetBundle.swift in Sources */,
+				000000000000000000000065 /* MultiConvertWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXResourcesBuildPhase section */
+		000000000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000000005E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000000D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000066 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXFrameworksBuildPhase section */
+		000000000000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000009 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000000B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000000E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		000000000000000000000001 /* MultiConvert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000010 /* Build configuration list for PBXNativeTarget "MultiConvert" */;
+			buildPhases = (
+				000000000000000000000005 /* Sources */,
+				000000000000000000000007 /* Frameworks */,
+				000000000000000000000006 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = (
+				00000000000000000000002B /* PBXTargetDependency */,
+			);
+			name = MultiConvert;
+			productName = MultiConvert;
+			productReference = 000000000000000000000067 /* MultiConvert.app */;
+			productType = "com.apple.product-type.application";
+		};
+		000000000000000000000002 /* MultiConvertTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000011 /* Build configuration list for PBXNativeTarget "MultiConvertTests" */;
+			buildPhases = (
+				000000000000000000000008 /* Sources */,
+				000000000000000000000009 /* Frameworks */,
+			);
+			buildRules = ();
+			dependencies = (
+				00000000000000000000002D /* PBXTargetDependency */,
+			);
+			name = MultiConvertTests;
+			productName = MultiConvertTests;
+			productReference = 000000000000000000000068 /* MultiConvertTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		000000000000000000000003 /* MultiConvertUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000012 /* Build configuration list for PBXNativeTarget "MultiConvertUITests" */;
+			buildPhases = (
+				00000000000000000000000A /* Sources */,
+				00000000000000000000000B /* Frameworks */,
+			);
+			buildRules = ();
+			dependencies = (
+				00000000000000000000002F /* PBXTargetDependency */,
+			);
+			name = MultiConvertUITests;
+			productName = MultiConvertUITests;
+			productReference = 000000000000000000000069 /* MultiConvertUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		000000000000000000000004 /* MultiConvertWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000013 /* Build configuration list for PBXNativeTarget "MultiConvertWidget" */;
+			buildPhases = (
+				00000000000000000000000C /* Sources */,
+				00000000000000000000000E /* Frameworks */,
+				00000000000000000000000D /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = MultiConvertWidget;
+			productName = MultiConvertWidget;
+			productReference = 00000000000000000000006A /* MultiConvertWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000000000000000000000030 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					000000000000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					000000000000000000000002 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 000000000000000000000001;
+					};
+					000000000000000000000003 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 000000000000000000000001;
+					};
+					000000000000000000000004 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 00000000000000000000000F /* Build configuration list for PBXProject "MultiConvert" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00000000000000000000001E;
+			minimumXcodeVersion = 15.0;
+			productRefGroup = 000000000000000000000029 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				000000000000000000000001 /* MultiConvert */,
+				000000000000000000000002 /* MultiConvertTests */,
+				000000000000000000000003 /* MultiConvertUITests */,
+				000000000000000000000004 /* MultiConvertWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		000000000000000000000014 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		000000000000000000000015 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		000000000000000000000016 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MultiConvert;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 jibaroenlaluna";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+			};
+			name = Debug;
+		};
+		000000000000000000000017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MultiConvert;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 jibaroenlaluna";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		000000000000000000000018 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MultiConvert.app/MultiConvert";
+			};
+			name = Debug;
+		};
+		000000000000000000000019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MultiConvert.app/MultiConvert";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00000000000000000000001A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				TEST_TARGET_NAME = MultiConvert;
+			};
+			name = Debug;
+		};
+		00000000000000000000001B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				TEST_TARGET_NAME = MultiConvert;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00000000000000000000001C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
+				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+			};
+			name = Debug;
+		};
+		00000000000000000000001D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
+				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jibaroenlaluna.multiconvert.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00000000000000000000000F /* Build configuration list for PBXProject "MultiConvert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000014 /* Debug */,
+				000000000000000000000015 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000010 /* Build configuration list for PBXNativeTarget "MultiConvert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000016 /* Debug */,
+				000000000000000000000017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000011 /* Build configuration list for PBXNativeTarget "MultiConvertTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000018 /* Debug */,
+				000000000000000000000019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000012 /* Build configuration list for PBXNativeTarget "MultiConvertUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000001A /* Debug */,
+				00000000000000000000001B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000013 /* Build configuration list for PBXNativeTarget "MultiConvertWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000001C /* Debug */,
+				00000000000000000000001D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 000000000000000000000030 /* Project object */;
+}
