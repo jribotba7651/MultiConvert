@@ -17,6 +17,7 @@ struct ContentView: View {
                 Divider().background(Theme.cardBackground)
                 ZStack(alignment: .trailing) {
                     ConversionListView()
+                        .padding(.trailing, 56)
                     baseCyclerArrows
                 }
                 .frame(maxHeight: .infinity)

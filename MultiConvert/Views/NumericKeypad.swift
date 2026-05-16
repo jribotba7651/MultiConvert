@@ -3,90 +3,61 @@ import SwiftUI
 struct NumericKeypad: View {
     @Environment(AppState.self) private var state
 
-    // GeometryReader fills all offered space vertically, which would crowd the list
-    // above it. Fix: pin the outer frame to the computed height so the VStack in
-    // ContentView allocates exactly the right amount.
-    @State private var computedHeight: CGFloat = 480
-
-    private let horizontalPadding: CGFloat = 16
-    private let interButtonSpacing: CGFloat = 12
-    private let numColumns: CGFloat = 4
+    private let spacing: CGFloat = 12
 
     var body: some View {
-        GeometryReader { geometry in
-            let totalSpacing = interButtonSpacing * (numColumns - 1)
-            let availableWidth = geometry.size.width - (horizontalPadding * 2) - totalSpacing
-            let d = availableWidth / numColumns
-
-            let gridColumns = Array(
-                repeating: GridItem(.flexible(), spacing: interButtonSpacing),
-                count: Int(numColumns)
-            )
-
-            LazyVGrid(columns: gridColumns, spacing: interButtonSpacing) {
-
-                // Row 1: utilities + col-4 placeholder
-                PadButton(key: .clear,   diameter: d) { state.clearInput() }
-                PadButton(key: .back,    diameter: d) { state.deleteLastDigit() }
-                PadButton(key: .decimal, diameter: d) { state.appendDigit(".") }
-                emptyCell(size: d)
-
-                // Row 2
-                PadButton(key: .digit("7"), diameter: d) { state.appendDigit("7") }
-                PadButton(key: .digit("8"), diameter: d) { state.appendDigit("8") }
-                PadButton(key: .digit("9"), diameter: d) { state.appendDigit("9") }
-                emptyCell(size: d)
-
-                // Row 3
-                PadButton(key: .digit("4"), diameter: d) { state.appendDigit("4") }
-                PadButton(key: .digit("5"), diameter: d) { state.appendDigit("5") }
-                PadButton(key: .digit("6"), diameter: d) { state.appendDigit("6") }
-                emptyCell(size: d)
-
-                // Row 4
-                PadButton(key: .digit("1"), diameter: d) { state.appendDigit("1") }
-                PadButton(key: .digit("2"), diameter: d) { state.appendDigit("2") }
-                PadButton(key: .digit("3"), diameter: d) { state.appendDigit("3") }
-                emptyCell(size: d)
-
-                // Row 5: zero spans cols 1-2 via explicit wider frame;
-                // col-2 placeholder below it has hit-testing off so it doesn't
-                // block touches from the overlapping zero button.
-                PadButton(key: .zero, diameter: d, zeroSpacing: interButtonSpacing) {
-                    state.appendDigit("0")
-                }
-                emptyCell(size: d)  // col 2 — hidden under zero, no hit-testing
-                emptyCell(size: d)  // col 3
-                emptyCell(size: d)  // col 4
-            }
-            .padding(.horizontal, horizontalPadding)
-            .padding(.bottom, 24)
-            .onAppear          { computedHeight = keypadHeight(diameter: d) }
-            .onChange(of: geometry.size.width) { _, newW in
-                let newD = (newW - horizontalPadding * 2 - totalSpacing) / numColumns
-                computedHeight = keypadHeight(diameter: newD)
-            }
+        VStack(spacing: spacing) {
+            row([.clear, .back, .decimal])
+            row([.digit("7"), .digit("8"), .digit("9")])
+            row([.digit("4"), .digit("5"), .digit("6")])
+            row([.digit("1"), .digit("2"), .digit("3")])
+            zeroRow
         }
-        .frame(height: computedHeight)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 24)
     }
 
-    // 5 rows × diameter + 4 inter-row gaps + bottom padding
-    private func keypadHeight(diameter: CGFloat) -> CGFloat {
-        5 * diameter + 4 * interButtonSpacing + 24
+    private func row(_ keys: [PadKey]) -> some View {
+        HStack(spacing: spacing) {
+            ForEach(keys, id: \.self) { key in
+                PadButton(key: key) { handle(key) }
+            }
+            // Empty 4th column placeholder (reserved for cycler arrows visually)
+            Color.clear
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .allowsHitTesting(false)
+        }
     }
 
-    // Non-interactive spacer cell for empty grid positions
-    @ViewBuilder
-    private func emptyCell(size: CGFloat) -> some View {
-        Color.clear
-            .frame(width: size, height: size)
-            .allowsHitTesting(false)
+    private var zeroRow: some View {
+        HStack(spacing: spacing) {
+            PadButton(key: .zero) { state.appendDigit("0") }
+                .frame(maxWidth: .infinity)
+            // Two empty cells for cols 3 and 4
+            Color.clear
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .allowsHitTesting(false)
+            Color.clear
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .allowsHitTesting(false)
+        }
+    }
+
+    private func handle(_ key: PadKey) {
+        switch key {
+        case .digit(let d): state.appendDigit(d)
+        case .zero:         state.appendDigit("0")
+        case .decimal:      state.appendDigit(".")
+        case .clear:        state.clearInput()
+        case .back:         state.deleteLastDigit()
+        }
     }
 }
 
-// MARK: - Key model
-
-enum PadKey: Equatable {
+enum PadKey: Hashable {
     case digit(String)
     case zero
     case decimal
@@ -95,28 +66,24 @@ enum PadKey: Equatable {
 
     var label: String {
         switch self {
-        case .digit(let d): d
-        case .zero:    "0"
-        case .decimal: "."
-        case .clear:   "C"
-        case .back:    "⌫"
+        case .digit(let d): return d
+        case .zero:         return "0"
+        case .decimal:      return "."
+        case .clear:        return "C"
+        case .back:         return "⌫"
         }
     }
 
     var isUtility: Bool {
         switch self {
-        case .clear, .back, .decimal: true
-        default: false
+        case .clear, .back, .decimal: return true
+        default: return false
         }
     }
 }
 
-// MARK: - Button
-
 private struct PadButton: View {
     let key: PadKey
-    let diameter: CGFloat
-    var zeroSpacing: CGFloat = 0   // only used when key == .zero
     let action: () -> Void
 
     @State private var pressed = false
@@ -129,27 +96,23 @@ private struct PadButton: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             action()
         } label: {
-            let fs = diameter * 0.42
-
-            if key == .zero {
-                Capsule()
-                    .fill(digitBg)
-                    .frame(width: (diameter * 2) + zeroSpacing, height: diameter)
-                    .overlay(
-                        Text(key.label)
-                            .font(.system(size: fs, weight: .regular, design: .rounded))
-                            .foregroundStyle(.white)
-                    )
-            } else {
-                Circle()
-                    .fill(key.isUtility ? utilityBg : digitBg)
-                    .frame(width: diameter, height: diameter)
-                    .overlay(
-                        Text(key.label)
-                            .font(.system(size: fs, weight: .regular, design: .rounded))
-                            .foregroundStyle(.white)
-                    )
+            GeometryReader { geo in
+                let side = min(geo.size.width, geo.size.height)
+                Group {
+                    if key == .zero {
+                        Capsule()
+                            .fill(digitBg)
+                            .overlay(label(side: side))
+                    } else {
+                        Circle()
+                            .fill(key.isUtility ? utilityBg : digitBg)
+                            .frame(width: side, height: side)
+                            .overlay(label(side: side))
+                            .frame(width: geo.size.width, height: geo.size.height)
+                    }
+                }
             }
+            .aspectRatio(key == .zero ? 2 : 1, contentMode: .fit)
         }
         .buttonStyle(.plain)
         .scaleEffect(pressed ? 0.95 : 1.0)
@@ -160,5 +123,11 @@ private struct PadButton: View {
                 .onChanged { _ in pressed = true }
                 .onEnded   { _ in pressed = false }
         )
+    }
+
+    private func label(side: CGFloat) -> some View {
+        Text(key.label)
+            .font(.system(size: side * 0.42, weight: .regular, design: .rounded))
+            .foregroundStyle(.white)
     }
 }
