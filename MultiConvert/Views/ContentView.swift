@@ -15,8 +15,11 @@ struct ContentView: View {
                 displayPanel
                 stalenessBar
                 Divider().background(Theme.cardBackground)
-                ConversionListView()
-                    .frame(maxHeight: .infinity)
+                ZStack(alignment: .trailing) {
+                    ConversionListView()
+                    baseCyclerArrows
+                }
+                .frame(maxHeight: .infinity)
                 keypadPanel
             }
         }
@@ -141,6 +144,41 @@ struct ContentView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 4)
         }
+    }
+
+    // MARK: - Base Cycler Arrows
+
+    private var baseCyclerArrows: some View {
+        VStack(spacing: 8) {
+            arrowButton(direction: .up,
+                        icon: "chevron.up",
+                        label: "Previous base currency")
+            arrowButton(direction: .down,
+                        icon: "chevron.down",
+                        label: "Next base currency")
+        }
+        .padding(.trailing, 12)
+        .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
+    }
+
+    private func arrowButton(
+        direction: AppState.CycleDirection,
+        icon: String,
+        label: String
+    ) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            state.cycleBase(direction)
+        } label: {
+            Image(systemName: icon)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(Theme.accentText)
+                .frame(width: 44, height: 44)
+                .background(Color(hex: "#2A2A2C").opacity(0.9), in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+        .accessibilityHint("Cycles through your recent currencies")
     }
 
     // MARK: - Keypad

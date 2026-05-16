@@ -50,6 +50,11 @@ struct ConversionRowView: View {
         .padding(.vertical, 10)
         .background(Theme.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Theme.accentText.opacity(0.15), lineWidth: 1.5)
+                .opacity(currency == state.baseCurrency ? 1 : 0)
+        )
     }
 
     private var typeBadge: some View {

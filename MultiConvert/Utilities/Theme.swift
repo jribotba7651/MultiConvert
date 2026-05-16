@@ -9,14 +9,14 @@ enum Theme {
 
     // Buttons
     static let digitButton     = Color(hex: "#2E2E38")
-    static let operatorButton  = Color(hex: "#C8872A")
+    static let operatorButton  = Color(hex: "#E8923C")
     static let utilityButton   = Color(hex: "#3A3A45")
     static let buttonPressed   = Color(hex: "#4A4A58")
 
     // Text
     static let primaryText     = Color(hex: "#F0EFE8")
     static let secondaryText   = Color(hex: "#9A9AA8")
-    static let accentText      = Color(hex: "#D4943A")
+    static let accentText      = Color(hex: "#E8923C")
     static let cryptoBadge     = Color(hex: "#3A8AD4")
     static let fiatBadge       = Color(hex: "#3AB87A")
 

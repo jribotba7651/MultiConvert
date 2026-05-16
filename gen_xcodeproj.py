@@ -54,6 +54,7 @@ TEST_SOURCES = [
     "MultiConvertTests/MRUCacheTests.swift",
     "MultiConvertTests/CacheStalenessTests.swift",
     "MultiConvertTests/CurrencyFormattingTests.swift",
+    "MultiConvertTests/BaseCyclerTests.swift",
 ]
 
 UITEST_SOURCES = [
@@ -524,6 +525,8 @@ def build_settings(cfg, target):
         common['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = 'DEBUG'
     if cfg == 'Release':
         common['VALIDATE_PRODUCT'] = 'YES'
+
+    common['DEVELOPMENT_TEAM'] = 'RK576HX8MX'
 
     if target == 'project':
         return common

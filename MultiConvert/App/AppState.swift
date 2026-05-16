@@ -82,6 +82,23 @@ final class AppState {
         baseCurrency = currency
     }
 
+    // MARK: - Base Currency Cycler
+
+    enum CycleDirection { case up, down }
+
+    func cycleBase(_ direction: CycleDirection) {
+        guard !recentCurrencies.isEmpty else { return }
+        let idx = recentCurrencies.firstIndex(of: baseCurrency) ?? -1
+        let newIdx: Int
+        switch direction {
+        case .up:
+            newIdx = idx <= 0 ? recentCurrencies.count - 1 : idx - 1
+        case .down:
+            newIdx = idx >= recentCurrencies.count - 1 ? 0 : idx + 1
+        }
+        baseCurrency = recentCurrencies[newIdx]
+    }
+
     // MARK: - Refresh
 
     @MainActor

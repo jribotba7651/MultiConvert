@@ -56,6 +56,22 @@ final class MultiConvertUITests: XCTestCase {
         XCTAssertFalse(staleIcon.exists)
     }
 
+    // MARK: - Base Cycler Arrows
+
+    func testDownArrowChangesCurrencyAndListUpdates() {
+        let downArrow = app.buttons["Next base currency"]
+        XCTAssertTrue(downArrow.waitForExistence(timeout: 5),
+                      "Down arrow button should exist in the conversion list area")
+
+        let baseBefore = app.buttons["baseCurrencyButton"].label
+
+        downArrow.tap()
+
+        let baseAfter = app.buttons["baseCurrencyButton"].label
+        XCTAssertNotEqual(baseBefore, baseAfter,
+                          "Tapping the down arrow should cycle to the next base currency")
+    }
+
     // MARK: - Settings
 
     func testSettingsOpens() {

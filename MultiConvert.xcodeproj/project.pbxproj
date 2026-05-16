@@ -7,33 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00000000000000000000004C /* MultiConvertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000031 /* MultiConvertApp.swift */; };
-		00000000000000000000004D /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000032 /* AppState.swift */; };
-		00000000000000000000004E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000033 /* Currency.swift */; };
-		00000000000000000000004F /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* CurrencyRate.swift */; };
-		000000000000000000000050 /* RateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000035 /* RateProvider.swift */; };
-		000000000000000000000051 /* FiatProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000036 /* FiatProvider.swift */; };
-		000000000000000000000052 /* CryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000037 /* CryptoProvider.swift */; };
-		000000000000000000000053 /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
-		000000000000000000000054 /* ConversionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000039 /* ConversionEngine.swift */; };
-		000000000000000000000055 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003A /* Theme.swift */; };
-		000000000000000000000056 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003B /* CurrencyFormatter.swift */; };
-		000000000000000000000057 /* MRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003C /* MRUCache.swift */; };
-		000000000000000000000058 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003D /* ContentView.swift */; };
-		000000000000000000000059 /* ConversionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003E /* ConversionListView.swift */; };
-		00000000000000000000005A /* ConversionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003F /* ConversionRowView.swift */; };
-		00000000000000000000005B /* NumericKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000040 /* NumericKeypad.swift */; };
-		00000000000000000000005C /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000041 /* CurrencyPickerView.swift */; };
-		00000000000000000000005D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000042 /* SettingsView.swift */; };
-		00000000000000000000005E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004A /* Assets.xcassets */; };
-		00000000000000000000005F /* ConversionMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000043 /* ConversionMathTests.swift */; };
-		000000000000000000000060 /* MRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000044 /* MRUCacheTests.swift */; };
-		000000000000000000000061 /* CacheStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000045 /* CacheStalenessTests.swift */; };
-		000000000000000000000062 /* CurrencyFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000046 /* CurrencyFormattingTests.swift */; };
-		000000000000000000000063 /* MultiConvertUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000047 /* MultiConvertUITests.swift */; };
-		000000000000000000000064 /* MultiConvertWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000048 /* MultiConvertWidgetBundle.swift */; };
-		000000000000000000000065 /* MultiConvertWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000049 /* MultiConvertWidget.swift */; };
-		000000000000000000000066 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004B /* Assets.xcassets */; };
+		00000000000000000000004D /* MultiConvertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000031 /* MultiConvertApp.swift */; };
+		00000000000000000000004E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000032 /* AppState.swift */; };
+		00000000000000000000004F /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000033 /* Currency.swift */; };
+		000000000000000000000050 /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* CurrencyRate.swift */; };
+		000000000000000000000051 /* RateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000035 /* RateProvider.swift */; };
+		000000000000000000000052 /* FiatProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000036 /* FiatProvider.swift */; };
+		000000000000000000000053 /* CryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000037 /* CryptoProvider.swift */; };
+		000000000000000000000054 /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
+		000000000000000000000055 /* ConversionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000039 /* ConversionEngine.swift */; };
+		000000000000000000000056 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003A /* Theme.swift */; };
+		000000000000000000000057 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003B /* CurrencyFormatter.swift */; };
+		000000000000000000000058 /* MRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003C /* MRUCache.swift */; };
+		000000000000000000000059 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003D /* ContentView.swift */; };
+		00000000000000000000005A /* ConversionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003E /* ConversionListView.swift */; };
+		00000000000000000000005B /* ConversionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003F /* ConversionRowView.swift */; };
+		00000000000000000000005C /* NumericKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000040 /* NumericKeypad.swift */; };
+		00000000000000000000005D /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000041 /* CurrencyPickerView.swift */; };
+		00000000000000000000005E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000042 /* SettingsView.swift */; };
+		00000000000000000000005F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004B /* Assets.xcassets */; };
+		000000000000000000000060 /* ConversionMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000043 /* ConversionMathTests.swift */; };
+		000000000000000000000061 /* MRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000044 /* MRUCacheTests.swift */; };
+		000000000000000000000062 /* CacheStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000045 /* CacheStalenessTests.swift */; };
+		000000000000000000000063 /* CurrencyFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000046 /* CurrencyFormattingTests.swift */; };
+		000000000000000000000064 /* BaseCyclerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000047 /* BaseCyclerTests.swift */; };
+		000000000000000000000065 /* MultiConvertUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000048 /* MultiConvertUITests.swift */; };
+		000000000000000000000066 /* MultiConvertWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000049 /* MultiConvertWidgetBundle.swift */; };
+		000000000000000000000067 /* MultiConvertWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004A /* MultiConvertWidget.swift */; };
+		000000000000000000000068 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000004C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,15 +101,16 @@
 		000000000000000000000044 /* MRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MRUCacheTests.swift"; sourceTree = "<group>"; };
 		000000000000000000000045 /* CacheStalenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CacheStalenessTests.swift"; sourceTree = "<group>"; };
 		000000000000000000000046 /* CurrencyFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyFormattingTests.swift"; sourceTree = "<group>"; };
-		000000000000000000000047 /* MultiConvertUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertUITests.swift"; sourceTree = "<group>"; };
-		000000000000000000000048 /* MultiConvertWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidgetBundle.swift"; sourceTree = "<group>"; };
-		000000000000000000000049 /* MultiConvertWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidget.swift"; sourceTree = "<group>"; };
-		00000000000000000000004A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		000000000000000000000047 /* BaseCyclerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseCyclerTests.swift"; sourceTree = "<group>"; };
+		000000000000000000000048 /* MultiConvertUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertUITests.swift"; sourceTree = "<group>"; };
+		000000000000000000000049 /* MultiConvertWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidgetBundle.swift"; sourceTree = "<group>"; };
+		00000000000000000000004A /* MultiConvertWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiConvertWidget.swift"; sourceTree = "<group>"; };
 		00000000000000000000004B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
-		000000000000000000000067 /* MultiConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		000000000000000000000068 /* MultiConvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		000000000000000000000069 /* MultiConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00000000000000000000006A /* MultiConvertWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MultiConvertWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000004C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		000000000000000000000069 /* MultiConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000006A /* MultiConvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000006B /* MultiConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000006C /* MultiConvertWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MultiConvertWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -126,10 +128,10 @@
 		000000000000000000000029 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000067 /* MultiConvert.app */,
-				000000000000000000000068 /* MultiConvertTests.xctest */,
-				000000000000000000000069 /* MultiConvertUITests.xctest */,
-				00000000000000000000006A /* MultiConvertWidget.appex */,
+				000000000000000000000069 /* MultiConvert.app */,
+				00000000000000000000006A /* MultiConvertTests.xctest */,
+				00000000000000000000006B /* MultiConvertUITests.xctest */,
+				00000000000000000000006C /* MultiConvertWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,7 +205,7 @@
 		000000000000000000000025 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				00000000000000000000004A /* Assets.xcassets */,
+				00000000000000000000004B /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -215,6 +217,7 @@
 				000000000000000000000044 /* MRUCacheTests.swift */,
 				000000000000000000000045 /* CacheStalenessTests.swift */,
 				000000000000000000000046 /* CurrencyFormattingTests.swift */,
+				000000000000000000000047 /* BaseCyclerTests.swift */,
 			);
 			path = MultiConvertTests;
 			sourceTree = "<group>";
@@ -222,7 +225,7 @@
 		000000000000000000000027 /* MultiConvertUITests */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000047 /* MultiConvertUITests.swift */,
+				000000000000000000000048 /* MultiConvertUITests.swift */,
 			);
 			path = MultiConvertUITests;
 			sourceTree = "<group>";
@@ -230,9 +233,9 @@
 		000000000000000000000028 /* MultiConvertWidget */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000048 /* MultiConvertWidgetBundle.swift */,
-				000000000000000000000049 /* MultiConvertWidget.swift */,
-				00000000000000000000004B /* Assets.xcassets */,
+				000000000000000000000049 /* MultiConvertWidgetBundle.swift */,
+				00000000000000000000004A /* MultiConvertWidget.swift */,
+				00000000000000000000004C /* Assets.xcassets */,
 			);
 			path = MultiConvertWidget;
 			sourceTree = "<group>";
@@ -244,24 +247,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00000000000000000000004C /* MultiConvertApp.swift in Sources */,
-				00000000000000000000004D /* AppState.swift in Sources */,
-				00000000000000000000004E /* Currency.swift in Sources */,
-				00000000000000000000004F /* CurrencyRate.swift in Sources */,
-				000000000000000000000050 /* RateProvider.swift in Sources */,
-				000000000000000000000051 /* FiatProvider.swift in Sources */,
-				000000000000000000000052 /* CryptoProvider.swift in Sources */,
-				000000000000000000000053 /* RateCache.swift in Sources */,
-				000000000000000000000054 /* ConversionEngine.swift in Sources */,
-				000000000000000000000055 /* Theme.swift in Sources */,
-				000000000000000000000056 /* CurrencyFormatter.swift in Sources */,
-				000000000000000000000057 /* MRUCache.swift in Sources */,
-				000000000000000000000058 /* ContentView.swift in Sources */,
-				000000000000000000000059 /* ConversionListView.swift in Sources */,
-				00000000000000000000005A /* ConversionRowView.swift in Sources */,
-				00000000000000000000005B /* NumericKeypad.swift in Sources */,
-				00000000000000000000005C /* CurrencyPickerView.swift in Sources */,
-				00000000000000000000005D /* SettingsView.swift in Sources */,
+				00000000000000000000004D /* MultiConvertApp.swift in Sources */,
+				00000000000000000000004E /* AppState.swift in Sources */,
+				00000000000000000000004F /* Currency.swift in Sources */,
+				000000000000000000000050 /* CurrencyRate.swift in Sources */,
+				000000000000000000000051 /* RateProvider.swift in Sources */,
+				000000000000000000000052 /* FiatProvider.swift in Sources */,
+				000000000000000000000053 /* CryptoProvider.swift in Sources */,
+				000000000000000000000054 /* RateCache.swift in Sources */,
+				000000000000000000000055 /* ConversionEngine.swift in Sources */,
+				000000000000000000000056 /* Theme.swift in Sources */,
+				000000000000000000000057 /* CurrencyFormatter.swift in Sources */,
+				000000000000000000000058 /* MRUCache.swift in Sources */,
+				000000000000000000000059 /* ContentView.swift in Sources */,
+				00000000000000000000005A /* ConversionListView.swift in Sources */,
+				00000000000000000000005B /* ConversionRowView.swift in Sources */,
+				00000000000000000000005C /* NumericKeypad.swift in Sources */,
+				00000000000000000000005D /* CurrencyPickerView.swift in Sources */,
+				00000000000000000000005E /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,10 +272,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00000000000000000000005F /* ConversionMathTests.swift in Sources */,
-				000000000000000000000060 /* MRUCacheTests.swift in Sources */,
-				000000000000000000000061 /* CacheStalenessTests.swift in Sources */,
-				000000000000000000000062 /* CurrencyFormattingTests.swift in Sources */,
+				000000000000000000000060 /* ConversionMathTests.swift in Sources */,
+				000000000000000000000061 /* MRUCacheTests.swift in Sources */,
+				000000000000000000000062 /* CacheStalenessTests.swift in Sources */,
+				000000000000000000000063 /* CurrencyFormattingTests.swift in Sources */,
+				000000000000000000000064 /* BaseCyclerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				000000000000000000000063 /* MultiConvertUITests.swift in Sources */,
+				000000000000000000000065 /* MultiConvertUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,8 +292,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				000000000000000000000064 /* MultiConvertWidgetBundle.swift in Sources */,
-				000000000000000000000065 /* MultiConvertWidget.swift in Sources */,
+				000000000000000000000066 /* MultiConvertWidgetBundle.swift in Sources */,
+				000000000000000000000067 /* MultiConvertWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00000000000000000000005E /* Assets.xcassets in Resources */,
+				00000000000000000000005F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				000000000000000000000066 /* Assets.xcassets in Resources */,
+				000000000000000000000068 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +362,7 @@
 			);
 			name = MultiConvert;
 			productName = MultiConvert;
-			productReference = 000000000000000000000067 /* MultiConvert.app */;
+			productReference = 000000000000000000000069 /* MultiConvert.app */;
 			productType = "com.apple.product-type.application";
 		};
 		000000000000000000000002 /* MultiConvertTests */ = {
@@ -374,7 +378,7 @@
 			);
 			name = MultiConvertTests;
 			productName = MultiConvertTests;
-			productReference = 000000000000000000000068 /* MultiConvertTests.xctest */;
+			productReference = 00000000000000000000006A /* MultiConvertTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		000000000000000000000003 /* MultiConvertUITests */ = {
@@ -390,7 +394,7 @@
 			);
 			name = MultiConvertUITests;
 			productName = MultiConvertUITests;
-			productReference = 000000000000000000000069 /* MultiConvertUITests.xctest */;
+			productReference = 00000000000000000000006B /* MultiConvertUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		000000000000000000000004 /* MultiConvertWidget */ = {
@@ -405,7 +409,7 @@
 			dependencies = ();
 			name = MultiConvertWidget;
 			productName = MultiConvertWidget;
-			productReference = 00000000000000000000006A /* MultiConvertWidget.appex */;
+			productReference = 00000000000000000000006C /* MultiConvertWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -465,6 +469,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -494,6 +499,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -527,6 +533,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -574,6 +581,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -620,6 +628,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -659,6 +668,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -697,6 +707,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -735,6 +746,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -774,6 +786,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -815,6 +828,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RK576HX8MX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
