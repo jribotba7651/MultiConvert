@@ -15,12 +15,8 @@ struct ContentView: View {
                 displayPanel
                 stalenessBar
                 Divider().background(Theme.cardBackground)
-                ZStack(alignment: .trailing) {
-                    ConversionListView()
-                        .padding(.trailing, 56)
-                    baseCyclerArrows
-                }
-                .frame(maxHeight: .infinity)
+                ConversionListView()
+                    .frame(maxHeight: .infinity)
                 keypadPanel
             }
         }
@@ -76,38 +72,55 @@ struct ContentView: View {
     // MARK: - Display
 
     private var displayPanel: some View {
-        VStack(alignment: .trailing, spacing: 4) {
-            Button {
-                showBasePicker = true
-            } label: {
-                HStack(spacing: 6) {
-                    Text(state.baseCurrency.flag ?? state.baseCurrency.symbol)
-                        .font(.system(size: 20))
-                    Text(state.baseCurrency.code)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundStyle(Theme.accentText)
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Theme.accentText)
+        ZStack(alignment: .topLeading) {
+            VStack(alignment: .trailing, spacing: 4) {
+                Button {
+                    showBasePicker = true
+                } label: {
+                    HStack(spacing: 6) {
+                        Text(state.baseCurrency.flag ?? state.baseCurrency.symbol)
+                            .font(.system(size: 20))
+                        Text(state.baseCurrency.code)
+                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Theme.accentText)
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(Theme.accentText)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Theme.cardBackground, in: Capsule())
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Theme.cardBackground, in: Capsule())
-            }
-            .accessibilityIdentifier("baseCurrencyButton")
+                .accessibilityIdentifier("baseCurrencyButton")
 
-            Text(displayAmount)
-                .font(Theme.displayFont)
-                .foregroundStyle(Theme.primaryText)
-                .lineLimit(1)
-                .minimumScaleFactor(0.4)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .contentTransition(.numericText())
-                .animation(.snappy, value: state.inputString)
+                Text(displayAmount)
+                    .font(Theme.displayFont)
+                    .foregroundStyle(Theme.primaryText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .contentTransition(.numericText())
+                    .animation(.snappy, value: state.inputString)
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 8)
+            .padding(.bottom, 12)
+            .frame(maxWidth: .infinity)
+
+            // Arrows sit in the top-left of the display panel, clear of the
+            // conversion list and the currency selector (which is trailing-aligned).
+            VStack(spacing: 8) {
+                arrowButton(direction: .up,
+                            icon: "chevron.up",
+                            label: "Previous base currency")
+                arrowButton(direction: .down,
+                            icon: "chevron.down",
+                            label: "Next base currency")
+            }
+            .padding(.leading, 12)
+            .padding(.top, 8)
+            .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 12)
         .background(Theme.displayBg)
     }
 
@@ -148,19 +161,6 @@ struct ContentView: View {
     }
 
     // MARK: - Base Cycler Arrows
-
-    private var baseCyclerArrows: some View {
-        VStack(spacing: 8) {
-            arrowButton(direction: .up,
-                        icon: "chevron.up",
-                        label: "Previous base currency")
-            arrowButton(direction: .down,
-                        icon: "chevron.down",
-                        label: "Next base currency")
-        }
-        .padding(.trailing, 12)
-        .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
-    }
 
     private func arrowButton(
         direction: AppState.CycleDirection,

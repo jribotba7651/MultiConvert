@@ -3,52 +3,59 @@ import SwiftUI
 struct NumericKeypad: View {
     @Environment(AppState.self) private var state
 
+    private let hPad: CGFloat = 16
     private let spacing: CGFloat = 12
+
+    // Compute once from screen width — no GeometryReader, no @State, no re-render.
+    // Available width = screen width minus horizontal padding and 3 inter-column gaps.
+    // Dividing by 4 columns gives the diameter for every button in the grid.
+    private var d: CGFloat {
+        (UIScreen.main.bounds.width - hPad * 2 - spacing * 3) / 4
+    }
 
     var body: some View {
         VStack(spacing: spacing) {
-            row([.clear, .back, .decimal])
-            row([.digit("7"), .digit("8"), .digit("9")])
-            row([.digit("4"), .digit("5"), .digit("6")])
-            row([.digit("1"), .digit("2"), .digit("3")])
+            keyRow([.clear, .back, .decimal])
+            keyRow([.digit("7"), .digit("8"), .digit("9")])
+            keyRow([.digit("4"), .digit("5"), .digit("6")])
+            keyRow([.digit("1"), .digit("2"), .digit("3")])
             zeroRow
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, hPad)
         .padding(.bottom, 24)
     }
 
-    private func row(_ keys: [PadKey]) -> some View {
+    // Three buttons + one transparent col-4 placeholder that the arrows sit above.
+    private func keyRow(_ keys: [PadKey]) -> some View {
         HStack(spacing: spacing) {
             ForEach(keys, id: \.self) { key in
-                PadButton(key: key) { handle(key) }
+                PadButton(key: key, diameter: d) { handle(key) }
             }
-            // Empty 4th column placeholder (reserved for cycler arrows visually)
             Color.clear
-                .frame(maxWidth: .infinity)
-                .aspectRatio(1, contentMode: .fit)
+                .frame(width: d, height: d)
                 .allowsHitTesting(false)
         }
     }
 
+    // Zero spans cols 1+2: width = 2d + 1 gap, so it aligns exactly with
+    // the right edge of col-2 in the rows above. Cols 3 and 4 are transparent.
     private var zeroRow: some View {
         HStack(spacing: spacing) {
-            PadButton(key: .zero) { state.appendDigit("0") }
-                .frame(maxWidth: .infinity)
-            // Two empty cells for cols 3 and 4
+            PadButton(key: .zero, diameter: d, zeroSpacing: spacing) {
+                state.appendDigit("0")
+            }
             Color.clear
-                .frame(maxWidth: .infinity)
-                .aspectRatio(1, contentMode: .fit)
+                .frame(width: d, height: d)
                 .allowsHitTesting(false)
             Color.clear
-                .frame(maxWidth: .infinity)
-                .aspectRatio(1, contentMode: .fit)
+                .frame(width: d, height: d)
                 .allowsHitTesting(false)
         }
     }
 
     private func handle(_ key: PadKey) {
         switch key {
-        case .digit(let d): state.appendDigit(d)
+        case .digit(let v): state.appendDigit(v)
         case .zero:         state.appendDigit("0")
         case .decimal:      state.appendDigit(".")
         case .clear:        state.clearInput()
@@ -56,6 +63,8 @@ struct NumericKeypad: View {
         }
     }
 }
+
+// MARK: - Key model
 
 enum PadKey: Hashable {
     case digit(String)
@@ -82,8 +91,12 @@ enum PadKey: Hashable {
     }
 }
 
+// MARK: - Button
+
 private struct PadButton: View {
     let key: PadKey
+    let diameter: CGFloat
+    var zeroSpacing: CGFloat = 0
     let action: () -> Void
 
     @State private var pressed = false
@@ -91,28 +104,26 @@ private struct PadButton: View {
     private let digitBg   = Color(hex: "#2A2A2C")
     private let utilityBg = Color(hex: "#3A3A3C")
 
+    private var buttonWidth: CGFloat {
+        key == .zero ? diameter * 2 + zeroSpacing : diameter
+    }
+
     var body: some View {
         Button {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             action()
         } label: {
-            GeometryReader { geo in
-                let side = min(geo.size.width, geo.size.height)
-                Group {
-                    if key == .zero {
-                        Capsule()
-                            .fill(digitBg)
-                            .overlay(label(side: side))
-                    } else {
-                        Circle()
-                            .fill(key.isUtility ? utilityBg : digitBg)
-                            .frame(width: side, height: side)
-                            .overlay(label(side: side))
-                            .frame(width: geo.size.width, height: geo.size.height)
-                    }
+            ZStack {
+                if key == .zero {
+                    Capsule().fill(digitBg)
+                } else {
+                    Circle().fill(key.isUtility ? utilityBg : digitBg)
                 }
+                Text(key.label)
+                    .font(.system(size: diameter * 0.42, weight: .regular, design: .rounded))
+                    .foregroundStyle(.white)
             }
-            .aspectRatio(key == .zero ? 2 : 1, contentMode: .fit)
+            .frame(width: buttonWidth, height: diameter)
         }
         .buttonStyle(.plain)
         .scaleEffect(pressed ? 0.95 : 1.0)
@@ -123,11 +134,5 @@ private struct PadButton: View {
                 .onChanged { _ in pressed = true }
                 .onEnded   { _ in pressed = false }
         )
-    }
-
-    private func label(side: CGFloat) -> some View {
-        Text(key.label)
-            .font(.system(size: side * 0.42, weight: .regular, design: .rounded))
-            .foregroundStyle(.white)
     }
 }
