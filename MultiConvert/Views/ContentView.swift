@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppState.self) private var state
+    @Environment(PurchaseManager.self) private var purchase
     @State private var showCurrencyPicker = false
     @State private var showBasePicker = false
     @State private var showSettings = false
@@ -18,6 +19,10 @@ struct ContentView: View {
                 ConversionListView()
                     .frame(maxHeight: .infinity)
                 keypadPanel
+                if !purchase.isPremium {
+                    AdBannerView()
+                        .frame(height: 50)
+                }
             }
         }
         .sheet(isPresented: $showCurrencyPicker) {

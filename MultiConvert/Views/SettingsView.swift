@@ -2,14 +2,17 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AppState.self) private var state
+    @Environment(PurchaseManager.self) private var purchase
     @Environment(\.dismiss) private var dismiss
 
     @State private var showClearCacheConfirm = false
     @State private var showWidgetPicker = false
+    @State private var purchaseError: String?
 
     var body: some View {
         NavigationStack {
             List {
+                premiumSection
                 displaySection
                 widgetSection
                 cacheSection
@@ -45,6 +48,59 @@ struct SettingsView: View {
     }
 
     // MARK: - Sections
+
+    @ViewBuilder
+    private var premiumSection: some View {
+        Section("MultiConvert Premium") {
+            if purchase.isPremium {
+                HStack(spacing: 10) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundStyle(Theme.fiatBadge)
+                    Text("Premium Active")
+                        .foregroundStyle(Theme.primaryText)
+                }
+                .listRowBackground(Theme.cardBackground)
+            } else {
+                Button {
+                    purchaseError = nil
+                    Task {
+                        do {
+                            try await purchase.purchase()
+                        } catch {
+                            purchaseError = error.localizedDescription
+                        }
+                    }
+                } label: {
+                    HStack {
+                        if purchase.isPurchasing {
+                            ProgressView()
+                                .tint(Theme.accentText)
+                                .padding(.trailing, 4)
+                        }
+                        Text(purchase.isPurchasing ? "Processing…" : "Remove Ads — $1.99")
+                            .foregroundStyle(Theme.accentText)
+                    }
+                }
+                .disabled(purchase.isPurchasing || purchase.products.isEmpty)
+                .listRowBackground(Theme.cardBackground)
+
+                if let err = purchaseError {
+                    Text(err)
+                        .font(.caption)
+                        .foregroundStyle(Theme.staleWarning)
+                        .listRowBackground(Theme.cardBackground)
+                }
+            }
+
+            Button {
+                Task { await purchase.restorePurchases() }
+            } label: {
+                Text("Restore Purchases")
+                    .foregroundStyle(Theme.secondaryText)
+            }
+            .listRowBackground(Theme.cardBackground)
+        }
+    }
 
     @ViewBuilder
     private var displaySection: some View {

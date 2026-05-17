@@ -2,15 +2,28 @@ import SwiftUI
 
 struct NumericKeypad: View {
     @Environment(AppState.self) private var state
+    @Environment(PurchaseManager.self) private var purchase
 
     private let hPad: CGFloat = 16
     private let spacing: CGFloat = 12
 
     // Compute once from screen width — no GeometryReader, no @State, no re-render.
-    // Available width = screen width minus horizontal padding and 3 inter-column gaps.
-    // Dividing by 4 columns gives the diameter for every button in the grid.
+    // Cap differs by tier: free users get 72pt max (ad banner reclaims 50pt at bottom),
+    // premium users get 84pt max (no banner, more vertical room).
     private var d: CGFloat {
-        (UIScreen.main.bounds.width - hPad * 2 - spacing * 3) / 4
+        Self.buttonDiameter(screenWidth: UIScreen.main.bounds.width, isPremium: purchase.isPremium)
+    }
+
+    // Static so PurchaseManagerTests can call it directly without a View instance.
+    static func buttonDiameter(
+        screenWidth: CGFloat,
+        isPremium: Bool,
+        hPad: CGFloat = 16,
+        spacing: CGFloat = 12
+    ) -> CGFloat {
+        let computed = (screenWidth - hPad * 2 - spacing * 3) / 4
+        let cap: CGFloat = isPremium ? 84 : 72
+        return min(computed, cap)
     }
 
     var body: some View {

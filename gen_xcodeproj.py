@@ -38,6 +38,7 @@ APP_SOURCES = [
     "MultiConvert/Services/CryptoProvider.swift",
     "MultiConvert/Services/RateCache.swift",
     "MultiConvert/Services/ConversionEngine.swift",
+    "MultiConvert/Services/PurchaseManager.swift",
     "MultiConvert/Utilities/Theme.swift",
     "MultiConvert/Utilities/CurrencyFormatter.swift",
     "MultiConvert/Utilities/MRUCache.swift",
@@ -47,6 +48,7 @@ APP_SOURCES = [
     "MultiConvert/Views/NumericKeypad.swift",
     "MultiConvert/Views/CurrencyPickerView.swift",
     "MultiConvert/Views/SettingsView.swift",
+    "MultiConvert/Views/AdBannerView.swift",
 ]
 
 TEST_SOURCES = [
@@ -55,6 +57,7 @@ TEST_SOURCES = [
     "MultiConvertTests/CacheStalenessTests.swift",
     "MultiConvertTests/CurrencyFormattingTests.swift",
     "MultiConvertTests/BaseCyclerTests.swift",
+    "MultiConvertTests/PurchaseManagerTests.swift",
 ]
 
 UITEST_SOURCES = [
@@ -68,6 +71,7 @@ WIDGET_SOURCES = [
 
 APP_RESOURCES = [
     "MultiConvert/Resources/Assets.xcassets",
+    "MultiConvert/Resources/MultiConvert.storekit",
 ]
 
 WIDGET_RESOURCES = [
@@ -198,8 +202,9 @@ def emit_build_files():
 
 def file_type(path):
     if path.endswith('.swift'):     return 'sourcecode.swift'
-    if path.endswith('.xcassets'): return 'folder.assetcatalog'
-    if path.endswith('.plist'):    return 'text.plist.xml'
+    if path.endswith('.xcassets'):  return 'folder.assetcatalog'
+    if path.endswith('.plist'):     return 'text.plist.xml'
+    if path.endswith('.storekit'):  return 'com.apple.storekit.configuration'
     return 'file'
 
 def emit_file_references():
