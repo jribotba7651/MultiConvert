@@ -12,10 +12,10 @@ struct PurchaseManagerTests {
         #expect(!manager.isPremium)
     }
 
-    @Test func freeKeypadCapsAt72() {
-        // On iPhone 16 Pro Max (430pt): computed = (430-32-36)/4 = 90.5 → capped at 72
+    @Test func freeKeypadCapsAt64() {
+        // On iPhone 16 Pro Max (430pt): computed = (430-32-36)/4 = 90.5 → capped at 64
         let d = NumericKeypad.buttonDiameter(screenWidth: 430, isPremium: false)
-        #expect(d == 72)
+        #expect(d == 64)
     }
 
     @Test func premiumKeypadCapsAt84() {

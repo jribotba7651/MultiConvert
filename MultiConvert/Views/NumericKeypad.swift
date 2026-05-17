@@ -8,10 +8,15 @@ struct NumericKeypad: View {
     private let spacing: CGFloat = 12
 
     // Compute once from screen width — no GeometryReader, no @State, no re-render.
-    // Cap differs by tier: free users get 72pt max (ad banner reclaims 50pt at bottom),
+    // Cap differs by tier: free users get 64pt max (ad banner reclaims 50pt at bottom),
     // premium users get 84pt max (no banner, more vertical room).
     private var d: CGFloat {
         Self.buttonDiameter(screenWidth: UIScreen.main.bounds.width, isPremium: purchase.isPremium)
+    }
+
+    private var keypadHeight: CGFloat {
+        // 5 rows × d + 4 spacing gaps + bottom padding
+        (5 * d) + (4 * spacing) + 24
     }
 
     // Static so PurchaseManagerTests can call it directly without a View instance.
@@ -22,7 +27,7 @@ struct NumericKeypad: View {
         spacing: CGFloat = 12
     ) -> CGFloat {
         let computed = (screenWidth - hPad * 2 - spacing * 3) / 4
-        let cap: CGFloat = isPremium ? 84 : 72
+        let cap: CGFloat = isPremium ? 84 : 64
         return min(computed, cap)
     }
 
@@ -36,6 +41,7 @@ struct NumericKeypad: View {
         }
         .padding(.horizontal, hPad)
         .padding(.bottom, 24)
+        .frame(height: keypadHeight)
     }
 
     // Three buttons + one transparent col-4 placeholder that the arrows sit above.
