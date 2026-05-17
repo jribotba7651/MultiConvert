@@ -32,43 +32,37 @@ struct NumericKeypad: View {
     }
 
     var body: some View {
-        VStack(spacing: spacing) {
-            keyRow([.clear, .back, .decimal])
-            keyRow([.digit("7"), .digit("8"), .digit("9")])
-            keyRow([.digit("4"), .digit("5"), .digit("6")])
-            keyRow([.digit("1"), .digit("2"), .digit("3")])
-            zeroRow
+        HStack {
+            Spacer(minLength: 0)
+            VStack(spacing: spacing) {
+                keyRow([.clear, .back, .decimal])
+                keyRow([.digit("7"), .digit("8"), .digit("9")])
+                keyRow([.digit("4"), .digit("5"), .digit("6")])
+                keyRow([.digit("1"), .digit("2"), .digit("3")])
+                zeroRow
+            }
+            Spacer(minLength: 0)
         }
         .padding(.horizontal, hPad)
         .padding(.bottom, 24)
         .frame(height: keypadHeight)
     }
 
-    // Three buttons + one transparent col-4 placeholder that the arrows sit above.
     private func keyRow(_ keys: [PadKey]) -> some View {
         HStack(spacing: spacing) {
             ForEach(keys, id: \.self) { key in
                 PadButton(key: key, diameter: d) { handle(key) }
             }
-            Color.clear
-                .frame(width: d, height: d)
-                .allowsHitTesting(false)
         }
     }
 
-    // Zero spans cols 1+2: width = 2d + 1 gap, so it aligns exactly with
-    // the right edge of col-2 in the rows above. Cols 3 and 4 are transparent.
+    // Zero spans cols 1+2: width = 2d + 1 gap, so it aligns under the "1" and "2"
+    // of the row above now that the entire keypad is centered.
     private var zeroRow: some View {
         HStack(spacing: spacing) {
             PadButton(key: .zero, diameter: d, zeroSpacing: spacing) {
                 state.appendDigit("0")
             }
-            Color.clear
-                .frame(width: d, height: d)
-                .allowsHitTesting(false)
-            Color.clear
-                .frame(width: d, height: d)
-                .allowsHitTesting(false)
         }
     }
 
