@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# Xcode — user-specific state (NEVER commit)
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+
+# Xcode — build output
+build/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods / Carthage (por si acaso)
+Pods/
+Carthage/Build/
+
+# Claude Code local session/config
+.claude/
+
+# Signing & secrets (NEVER commit)
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+*.pem
+*.key
+GoogleService-Info.plist
+Secrets.swift
+*.xcconfig

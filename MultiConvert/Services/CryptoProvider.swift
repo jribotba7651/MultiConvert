@@ -4,14 +4,33 @@ import Foundation
 /// Converts CoinGecko USD prices to units-per-USD format:
 ///   If 1 BTC = 65,000 USD, then ratesPerUSD["BTC"] = 1/65000 ≈ 0.0000154
 final class CryptoProvider: RateProvider {
-    let supportedCodes: Set<String> = ["BTC", "ETH", "SOL", "USDC", "USDT"]
+    let supportedCodes: Set<String> = [
+        "BTC", "ETH", "USDT", "USDC", "BNB", "SOL", "XRP", "DOGE",
+        "ADA", "AVAX", "SHIB", "DOT", "LINK", "LTC", "UNI",
+        "ATOM", "XLM", "NEAR", "ARB", "OP",
+    ]
 
     private let codeToId: [String: String] = [
         "BTC":  "bitcoin",
         "ETH":  "ethereum",
-        "SOL":  "solana",
-        "USDC": "usd-coin",
         "USDT": "tether",
+        "USDC": "usd-coin",
+        "BNB":  "binancecoin",
+        "SOL":  "solana",
+        "XRP":  "ripple",
+        "DOGE": "dogecoin",
+        "ADA":  "cardano",
+        "AVAX": "avalanche-2",
+        "SHIB": "shiba-inu",
+        "DOT":  "polkadot",
+        "LINK": "chainlink",
+        "LTC":  "litecoin",
+        "UNI":  "uniswap",
+        "ATOM": "cosmos",
+        "XLM":  "stellar",
+        "NEAR": "near",
+        "ARB":  "arbitrum",
+        "OP":   "optimism",
     ]
 
     func fetchRatesPerUSD() async throws -> [String: Double] {

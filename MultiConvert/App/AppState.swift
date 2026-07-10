@@ -43,7 +43,9 @@ final class AppState {
         loadRecentCurrencies()
 
         if recentCurrencies.isEmpty {
-            recentCurrencies = Array(Currency.allFiat.prefix(10))
+            // Default to the most popular currencies (all supported by frankfurter.dev)
+            let defaultCodes = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "MXN", "CNY", "BRL"]
+            recentCurrencies = defaultCodes.compactMap { Currency.find(code: $0) }
         }
 
         snapshot = engine.cachedSnapshot
