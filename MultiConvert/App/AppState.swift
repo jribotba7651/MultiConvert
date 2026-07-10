@@ -9,7 +9,7 @@ private let kWidgetCurrency   = "widgetBaseCurrency"
 @Observable
 final class AppState {
     // MARK: - Input
-    var inputString: String = "1"
+    var inputString: String = "0"
     var baseCurrency: Currency = .usd
 
     // MARK: - MRU List (10 most recently used, excluding base currency)
