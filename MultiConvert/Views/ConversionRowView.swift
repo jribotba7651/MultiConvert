@@ -4,9 +4,6 @@ struct ConversionRowView: View {
     @Environment(AppState.self) private var state
     let currency: Currency
     let index: Int
-    let isDragging: Bool
-    let onDragChanged: (CGFloat) -> Void
-    let onDragEnded: () -> Void
 
     @State private var showCurrencyPicker = false
 
@@ -14,8 +11,6 @@ struct ConversionRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            dragHandle
-
             currencyTapZone
 
             Spacer()
@@ -41,11 +36,6 @@ struct ConversionRowView: View {
             RoundedRectangle(cornerRadius: 14)
                 .stroke(Theme.accentText, lineWidth: isBase ? 2 : 0)
         )
-        .shadow(color: .black.opacity(isDragging ? 0.35 : 0), radius: isDragging ? 10 : 0, y: isDragging ? 4 : 0)
-        .scaleEffect(isDragging ? 1.03 : 1.0)
-        .opacity(isDragging ? 0.92 : 1.0)
-        .zIndex(isDragging ? 1 : 0)
-        .animation(.easeOut(duration: 0.15), value: isDragging)
         .sheet(isPresented: $showCurrencyPicker) {
             CurrencyPickerSheet(currentSelection: currency) { newCurrency in
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -54,28 +44,10 @@ struct ConversionRowView: View {
         }
     }
 
-    // MARK: - Drag handle
-
-    private var dragHandle: some View {
-        Image(systemName: "line.3.horizontal")
-            .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(Theme.secondaryText)
-            .frame(width: 28, height: 28)
-            .contentShape(Rectangle())
-            .gesture(
-                DragGesture(minimumDistance: 2)
-                    .onChanged { value in onDragChanged(value.translation.height) }
-                    .onEnded { _ in onDragEnded() }
-            )
-            .accessibilityLabel("Reorder \(currency.code)")
-            .accessibilityHint("Drag to reorder the list, or drop at the top to make this the base currency")
-    }
-
     // MARK: - Currency tap zone (flag + code + name) — opens the quick picker
 
     private var currencyTapZone: some View {
         HStack(spacing: 12) {
-            // Flag or crypto icon — sized up now that the position badge is gone
             Text(currency.flag ?? currency.symbol)
                 .font(.system(size: 30))
                 .frame(width: 38)
@@ -95,17 +67,10 @@ struct ConversionRowView: View {
             }
         }
         .contentShape(Rectangle())
-        // `.highPriorityGesture` — a plain `.onTapGesture` here lost the
-        // first tap to the drag handle's low-`minimumDistance` DragGesture
-        // sitting in the same row, requiring a second tap to register.
-        // High priority makes this tap win outright instead of getting
-        // caught up in that gesture's recognition window.
-        .highPriorityGesture(
-            TapGesture().onEnded {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                showCurrencyPicker = true
-            }
-        )
+        .onTapGesture {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            showCurrencyPicker = true
+        }
         .accessibilityAddTraits(.isButton)
         .accessibilityLabel("\(currency.code), \(currency.name)")
         .accessibilityHint("Double tap to change the currency for this row")
