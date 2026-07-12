@@ -1,22 +1,53 @@
-// TODO: Ad integration — before App Store submission:
-// 1. Add the Google Mobile Ads SDK via SPM:
-//    https://github.com/googleads/swift-package-manager-google-mobile-ads
-// 2. Replace the stub body below with the real GADBannerView implementation.
-// 3. Replace the test ad unit ID with your live banner unit ID from AdMob.
-// 4. Call GADMobileAds.sharedInstance().start() in MultiConvertApp.init().
-//
-// Test ad unit ID (safe for development):
-//   ca-app-pub-3940256099942544/2934735716
-//
-// The stub renders an empty 50pt strip so layout is already reserved — no
-// layout changes needed when the real SDK is dropped in.
-
 import SwiftUI
+import GoogleMobileAds
 
 struct AdBannerView: View {
+    #if DEBUG
+    private let adUnitID = "ca-app-pub-3940256099942544/2934735716"
+    #else
+    private let adUnitID = "ca-app-pub-3258994800717071/4399651250"
+    #endif
+
     var body: some View {
-        // STUB — replace with real banner once Google Mobile Ads SDK is added.
-        Color.clear
-            .frame(height: 50)
+        GeometryReader { geo in
+            let adSize = currentOrientationAnchoredAdaptiveBanner(width: geo.size.width)
+            BannerRepresentable(adUnitID: adUnitID, adSize: adSize)
+                .frame(width: adSize.size.width, height: adSize.size.height)
+        }
+        .frame(height: 50)
+    }
+}
+
+private struct BannerRepresentable: UIViewRepresentable {
+    let adUnitID: String
+    let adSize: AdSize
+
+    func makeUIView(context: Context) -> BannerView {
+        let banner = BannerView()
+        banner.adUnitID = adUnitID
+        banner.adSize = adSize
+        banner.delegate = context.coordinator
+        return banner
+    }
+
+    func updateUIView(_ banner: BannerView, context: Context) {
+        if banner.rootViewController == nil,
+           let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let root = windowScene.windows.first?.rootViewController {
+            banner.rootViewController = root
+            banner.load(Request())
+        }
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    final class Coordinator: NSObject, BannerViewDelegate {
+        func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
+            print("[AdBanner] Failed to load: \(error.localizedDescription)")
+        }
+
+        func bannerViewDidReceiveAd(_ bannerView: BannerView) {
+            print("[AdBanner] Ad loaded, size: \(bannerView.adSize.size)")
+        }
     }
 }

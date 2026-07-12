@@ -22,6 +22,7 @@ struct ContentView: View {
                 if !purchase.isPremium {
                     AdBannerView()
                         .frame(height: 50)
+                        .background(Theme.appBackground)
                 }
             }
         }

@@ -549,6 +549,7 @@ def build_settings(cfg, target):
             'ENABLE_PREVIEWS': 'YES',
             'ENABLE_TESTABILITY': 'YES',
             'GENERATE_INFOPLIST_FILE': 'YES',
+            'INFOPLIST_FILE': 'MultiConvert/Info.plist',
             'INFOPLIST_KEY_CFBundleDisplayName': 'MultiConvert',
             'INFOPLIST_KEY_NSHumanReadableCopyright': '"© 2025 jibaroenlaluna"',
             'INFOPLIST_KEY_UIApplicationSceneManifest_Generation': 'YES',
