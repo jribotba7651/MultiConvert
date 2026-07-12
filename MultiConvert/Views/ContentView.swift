@@ -31,7 +31,7 @@ struct ContentView: View {
         .sheet(isPresented: $showBaseCurrencyPicker) {
             CurrencyPickerSheet(currentSelection: state.baseCurrency, title: "Change Base Currency") { newCurrency in
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                state.swapToBase(newCurrency)
+                state.setBase(newCurrency)
             }
         }
         .sheet(isPresented: $showSettings) {

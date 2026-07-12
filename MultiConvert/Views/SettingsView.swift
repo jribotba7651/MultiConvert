@@ -32,7 +32,7 @@ struct SettingsView: View {
         }
         .preferredColorScheme(.dark)
         .sheet(isPresented: $showWidgetPicker) {
-            CurrencyPickerView(mode: .setBase)
+            CurrencyPickerView(mode: .setWidgetCurrency)
         }
         .confirmationDialog(
             "Clear rate cache?",

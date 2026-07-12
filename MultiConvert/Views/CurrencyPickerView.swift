@@ -9,7 +9,7 @@ struct CurrencyPickerView: View {
 
     enum PickerMode {
         case addToList
-        case setBase
+        case setWidgetCurrency
     }
 
     var body: some View {
@@ -21,7 +21,7 @@ struct CurrencyPickerView: View {
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .background(Theme.appBackground)
-            .navigationTitle(mode == .setBase ? "Base Currency" : "Add Currency")
+            .navigationTitle(mode == .setWidgetCurrency ? "Widget Currency" : "Add Currency")
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText, prompt: "Search currencies")
             .toolbar {
@@ -49,8 +49,9 @@ struct CurrencyPickerView: View {
             switch mode {
             case .addToList:
                 state.selectCurrency(currency)
-            case .setBase:
-                state.setBaseCurrency(currency)
+            case .setWidgetCurrency:
+                state.widgetBaseCurrency = currency
+                state.saveWidgetSettings()
             }
             dismiss()
         } label: {
@@ -99,7 +100,7 @@ struct CurrencyPickerView: View {
 
     private func isSelected(_ currency: Currency) -> Bool {
         switch mode {
-        case .setBase: return currency == state.baseCurrency
+        case .setWidgetCurrency: return currency == state.widgetBaseCurrency
         case .addToList: return state.recentCurrencies.contains(currency)
         }
     }

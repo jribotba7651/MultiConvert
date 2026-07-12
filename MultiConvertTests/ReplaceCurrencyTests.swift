@@ -5,18 +5,17 @@ import Foundation
 @Suite("Replace Currency (per-row picker)")
 struct ReplaceCurrencyTests {
 
-    // Build a fresh AppState with a controlled MRU list to avoid UserDefaults pollution.
-    private func stateWith(_ currencies: [Currency], base: Currency) -> AppState {
+    // The base is always recentCurrencies[0]; there is no separate base to set.
+    private func stateWith(_ currencies: [Currency]) -> AppState {
         let s = AppState()
         s.recentCurrencies = currencies
-        s.baseCurrency = base
         return s
     }
 
     @Test func replaceWithNewCurrencyUpdatesThatRow() {
         let usd = Currency.usd, eur = Currency.eur
         let gbp = Currency.find(code: "GBP")!, jpy = Currency.find(code: "JPY")!
-        let s = stateWith([usd, eur, gbp], base: usd)
+        let s = stateWith([usd, eur, gbp])
 
         s.replaceCurrency(at: 1, with: jpy) // EUR row -> JPY, JPY wasn't in the list
 
@@ -27,7 +26,7 @@ struct ReplaceCurrencyTests {
     @Test func replaceWithCurrencyAlreadyInListSwaps() {
         let usd = Currency.usd, eur = Currency.eur
         let gbp = Currency.find(code: "GBP")!, jpy = Currency.find(code: "JPY")!
-        let s = stateWith([usd, eur, gbp, jpy], base: usd)
+        let s = stateWith([usd, eur, gbp, jpy])
 
         s.replaceCurrency(at: 1, with: jpy) // EUR row -> JPY, JPY already at index 3
 
@@ -37,29 +36,28 @@ struct ReplaceCurrencyTests {
     @Test func replacingBaseRowUpdatesBaseCurrency() {
         let usd = Currency.usd, eur = Currency.eur
         let gbp = Currency.find(code: "GBP")!
-        let s = stateWith([usd, eur, gbp], base: usd)
+        let s = stateWith([usd, eur, gbp])
 
-        s.replaceCurrency(at: 0, with: gbp) // base row (USD) -> GBP
+        s.replaceCurrency(at: 0, with: gbp) // base row (USD) -> GBP, GBP already at index 2
 
         #expect(s.recentCurrencies == [gbp, eur, usd])
         #expect(s.baseCurrency == gbp)
     }
 
-    @Test func replacingBaseRowWithSwapAlsoUpdatesBase() {
+    @Test func replacingBaseRowWithBrandNewCurrencyRebases() {
         let usd = Currency.usd, eur = Currency.eur
-        let gbp = Currency.find(code: "GBP")!
-        let s = stateWith([usd, eur, gbp], base: usd)
+        let cad = Currency.find(code: "CAD")!
+        let s = stateWith([usd, eur])
 
-        s.replaceCurrency(at: 0, with: gbp) // base row (USD) swaps with GBP at index 2
+        s.replaceCurrency(at: 0, with: cad) // CAD not in the list
 
-        #expect(s.recentCurrencies[0] == gbp)
-        #expect(s.recentCurrencies[2] == usd)
-        #expect(s.baseCurrency == gbp)
+        #expect(s.recentCurrencies == [cad, eur])
+        #expect(s.baseCurrency == cad)
     }
 
     @Test func replaceWithSameCurrencyIsNoOp() {
         let usd = Currency.usd, eur = Currency.eur
-        let s = stateWith([usd, eur], base: usd)
+        let s = stateWith([usd, eur])
 
         s.replaceCurrency(at: 1, with: eur)
 
@@ -69,7 +67,7 @@ struct ReplaceCurrencyTests {
 
     @Test func replaceAtOutOfBoundsIndexIsNoOp() {
         let usd = Currency.usd, eur = Currency.eur
-        let s = stateWith([usd, eur], base: usd)
+        let s = stateWith([usd, eur])
 
         s.replaceCurrency(at: 5, with: Currency.find(code: "JPY")!)
 

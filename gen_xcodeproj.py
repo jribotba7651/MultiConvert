@@ -57,11 +57,10 @@ TEST_SOURCES = [
     "MultiConvertTests/MRUCacheTests.swift",
     "MultiConvertTests/CacheStalenessTests.swift",
     "MultiConvertTests/CurrencyFormattingTests.swift",
-    "MultiConvertTests/BaseCyclerTests.swift",
     "MultiConvertTests/PurchaseManagerTests.swift",
     "MultiConvertTests/ReorderTests.swift",
     "MultiConvertTests/ReplaceCurrencyTests.swift",
-    "MultiConvertTests/SwapToBaseTests.swift",
+    "MultiConvertTests/BaseInvariantTests.swift",
 ]
 
 UITEST_SOURCES = [

@@ -10,10 +10,26 @@ private let kWidgetCurrency   = "widgetBaseCurrency"
 final class AppState {
     // MARK: - Input
     var inputString: String = "0"
-    var baseCurrency: Currency = .usd
 
-    // MARK: - MRU List (10 most recently used, excluding base currency)
+    // MARK: - Currency list & base (single source of truth)
+    //
+    // `recentCurrencies[0]` IS the base currency — there is no separately
+    // stored base, so the "index 0 holds the base" invariant cannot drift out
+    // of sync with the list. Persisting the list alone therefore restores the
+    // base across launches. Every production mutation routes through
+    // `commit(_:)`, which dedupes, clamps to the 10-item cap, and persists;
+    // no other code assigns to `recentCurrencies` directly.
     var recentCurrencies: [Currency] = []
+
+    /// The active base currency: always whatever occupies the top slot.
+    var baseCurrency: Currency { recentCurrencies.first ?? .usd }
+
+    private static let listCapacity = 10
+    private static let defaultCurrencyCodes =
+        ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "MXN", "CNY", "BRL"]
+    private static var defaultCurrencies: [Currency] {
+        defaultCurrencyCodes.compactMap { Currency.find(code: $0) }
+    }
 
     // MARK: - Rates
     var snapshot: RateSnapshot?
@@ -28,25 +44,29 @@ final class AppState {
     // MARK: - Engine
     private let engine = ConversionEngine()
 
+    // Injectable so tests can isolate persistence from UserDefaults.standard;
+    // production always uses .standard.
+    private let defaults: UserDefaults
+
     // MARK: - Init
 
-    init() {
-        decimalPlaces = UserDefaults.standard.integer(forKey: kDecimalPlaces)
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+
+        decimalPlaces = defaults.integer(forKey: kDecimalPlaces)
         if decimalPlaces == 0 { decimalPlaces = 2 }
 
-        widgetBaseAmount = UserDefaults.standard.string(forKey: kWidgetBase) ?? "1"
-        if let code = UserDefaults.standard.string(forKey: kWidgetCurrency),
+        widgetBaseAmount = defaults.string(forKey: kWidgetBase) ?? "1"
+        if let code = defaults.string(forKey: kWidgetCurrency),
            let cur = Currency.find(code: code) {
             widgetBaseCurrency = cur
         }
 
-        loadRecentCurrencies()
-
-        if recentCurrencies.isEmpty {
-            // Default to the most popular currencies (all supported by frankfurter.dev)
-            let defaultCodes = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "MXN", "CNY", "BRL"]
-            recentCurrencies = defaultCodes.compactMap { Currency.find(code: $0) }
-        }
+        // Whatever was persisted (or the default seed) is run back through the
+        // same funnel every mutation uses, so a list saved by an older build
+        // that grew past the cap or accumulated duplicates is healed on launch.
+        let loaded = loadPersistedCurrencies()
+        commit(loaded.isEmpty ? Self.defaultCurrencies : loaded)
 
         snapshot = engine.cachedSnapshot
     }
@@ -71,120 +91,80 @@ final class AppState {
         snapshot?.convert(amount: baseAmount, from: baseCurrency.code, to: currency.code)
     }
 
-    // MARK: - MRU
+    // MARK: - Mutation funnel
+    //
+    // The single point where `recentCurrencies` is written. Callers assemble
+    // the ordering they want and hand it here; this dedupes (first occurrence
+    // of each code wins, preserving order), clamps to `listCapacity`, and
+    // persists. Routing everything through here is what guarantees the cap and
+    // the no-duplicates invariant no matter which entry point ran.
+    private func commit(_ proposed: [Currency]) {
+        var seen = Set<String>()
+        var deduped: [Currency] = []
+        for currency in proposed where seen.insert(currency.code).inserted {
+            deduped.append(currency)
+        }
+        recentCurrencies = Array(deduped.prefix(Self.listCapacity))
+        saveRecentCurrencies()
+    }
 
+    // MARK: - Add (header "+")
+
+    /// The picked currency joins just below the base at index 1 — never at
+    /// index 0, so it can't displace the base. If it's already in the list it
+    /// moves to index 1; if it's the current base, nothing changes.
     func selectCurrency(_ currency: Currency) {
-        var mru = MRUCache<String>(capacity: 10, items: recentCurrencies.map(\.code))
-        mru.use(currency.code)
-        recentCurrencies = mru.items.compactMap { Currency.find(code: $0) }
-        saveRecentCurrencies()
+        guard currency != baseCurrency else { return }
+        var list = recentCurrencies
+        list.removeAll { $0 == currency }
+        list.insert(currency, at: min(1, list.count))
+        commit(list)
     }
 
-    func setBaseCurrency(_ currency: Currency) {
-        baseCurrency = currency
-    }
+    // MARK: - Base (header base button)
 
-    // MARK: - Base Currency Cycler
-
-    enum CycleDirection { case up, down }
-
-    func cycleBase(_ direction: CycleDirection) {
-        guard !recentCurrencies.isEmpty else { return }
-        let idx = recentCurrencies.firstIndex(of: baseCurrency) ?? -1
-        let newIdx: Int
-        switch direction {
-        case .up:
-            newIdx = idx <= 0 ? recentCurrencies.count - 1 : idx - 1
-        case .down:
-            newIdx = idx >= recentCurrencies.count - 1 ? 0 : idx + 1
-        }
-        baseCurrency = recentCurrencies[newIdx]
-    }
-
-    // MARK: - Reordering & base (index 0 is sacred: it always holds the base)
-
-    /// Moves the currency at `sourceIndex` to `targetIndex`.
-    ///
-    /// Index 0 is sacred — it always holds the active base currency — so the
-    /// two directions behave differently:
-    ///   - Moving something *into* index 0 is a pure two-position swap with
-    ///     whatever was there; every other row keeps its place.
-    ///   - Moving the base *out* of index 0 (or any shift that never touches
-    ///     index 0) is a plain shift. Whoever naturally ends up at index 0
-    ///     afterwards becomes the base — no separate bookkeeping needed,
-    ///     since index 0's occupant and `baseCurrency` are reconciled
-    ///     unconditionally at the end of every move.
-    func moveCurrency(from sourceIndex: Int, to targetIndex: Int) {
-        guard recentCurrencies.indices.contains(sourceIndex),
-              recentCurrencies.indices.contains(targetIndex),
-              sourceIndex != targetIndex else { return }
-
-        if targetIndex == 0 {
-            recentCurrencies.swapAt(0, sourceIndex)
-        } else {
-            let moved = recentCurrencies.remove(at: sourceIndex)
-            recentCurrencies.insert(moved, at: targetIndex)
-        }
-
-        baseCurrency = recentCurrencies[0]
-        saveRecentCurrencies()
-    }
-
-    /// Changes the active base currency to `newBase` — the header's control,
-    /// distinct from `replaceCurrency(at:with:)` which only ever touches a
-    /// single row.
-    ///
-    /// Index 0 is sacred, so `newBase` always ends up there. If it was
-    /// already a row, this is just `moveCurrency` to index 0 (a swap with
-    /// the outgoing base). If it wasn't in the list at all, it's inserted at
-    /// index 0 and the outgoing base takes the row right after it, so
-    /// nothing is lost.
-    func swapToBase(_ newBase: Currency) {
+    /// Makes `newBase` the active base by hoisting it to index 0. Works whether
+    /// or not it's already in the list; the outgoing base shifts down to index
+    /// 1 and is never lost.
+    func setBase(_ newBase: Currency) {
         guard newBase != baseCurrency else { return }
+        var list = recentCurrencies
+        list.removeAll { $0 == newBase }
+        list.insert(newBase, at: 0)
+        commit(list)
+    }
 
-        if let existingIndex = recentCurrencies.firstIndex(of: newBase) {
-            moveCurrency(from: existingIndex, to: 0)
-            return
-        }
+    // MARK: - Reorder (drag)
 
-        let oldBase = baseCurrency
-        if recentCurrencies.isEmpty {
-            recentCurrencies = [newBase]
-        } else {
-            recentCurrencies[0] = newBase
-            recentCurrencies.insert(oldBase, at: 1)
-        }
-        baseCurrency = newBase
-        saveRecentCurrencies()
+    /// Pure shift (remove + insert), identical for every target including
+    /// index 0, so the committed order matches the drag preview exactly.
+    /// Whatever lands at index 0 becomes the base by definition.
+    func moveCurrency(from source: Int, to target: Int) {
+        guard recentCurrencies.indices.contains(source),
+              recentCurrencies.indices.contains(target),
+              source != target else { return }
+        var list = recentCurrencies
+        let moved = list.remove(at: source)
+        list.insert(moved, at: target)
+        commit(list)
     }
 
     // MARK: - Per-row currency swap
 
-    /// Replaces the currency shown at `index` with `newCurrency`.
-    ///
-    /// If `newCurrency` is already elsewhere in the list, the two rows swap
-    /// places instead of creating a duplicate — the user picked that currency
-    /// deliberately, so a silent no-op or a "already in your list" toast would
-    /// just be friction. If the replaced currency was the active base, the
-    /// incoming currency becomes the new base too, since the base always
-    /// tracks whatever currency lives at its row.
+    /// Swaps the currency shown at `index` for `newCurrency`. Replacing the
+    /// index-0 row is a legitimate base change. If `newCurrency` already sits
+    /// in another row (including the base row), the two rows swap positions —
+    /// so the base slot always stays filled and no duplicate is created.
     func replaceCurrency(at index: Int, with newCurrency: Currency) {
         guard recentCurrencies.indices.contains(index) else { return }
-        let oldCurrency = recentCurrencies[index]
-        guard oldCurrency != newCurrency else { return }
-
-        let wasBase = oldCurrency == baseCurrency
-
-        if let existingIndex = recentCurrencies.firstIndex(of: newCurrency) {
-            recentCurrencies.swapAt(index, existingIndex)
+        guard recentCurrencies[index] != newCurrency else { return }
+        var list = recentCurrencies
+        if let existing = list.firstIndex(of: newCurrency) {
+            list.swapAt(index, existing)
         } else {
-            recentCurrencies[index] = newCurrency
+            list[index] = newCurrency
         }
-
-        if wasBase {
-            baseCurrency = newCurrency
-        }
-        saveRecentCurrencies()
+        commit(list)
     }
 
     // MARK: - Refresh
@@ -228,12 +208,12 @@ final class AppState {
     // MARK: - Settings persistence
 
     func saveDecimalPlaces() {
-        UserDefaults.standard.set(decimalPlaces, forKey: kDecimalPlaces)
+        defaults.set(decimalPlaces, forKey: kDecimalPlaces)
     }
 
     func saveWidgetSettings() {
-        UserDefaults.standard.set(widgetBaseAmount, forKey: kWidgetBase)
-        UserDefaults.standard.set(widgetBaseCurrency.code, forKey: kWidgetCurrency)
+        defaults.set(widgetBaseAmount, forKey: kWidgetBase)
+        defaults.set(widgetBaseCurrency.code, forKey: kWidgetCurrency)
         // Notify widget to reload
         #if canImport(WidgetKit)
         // WidgetCenter.shared.reloadAllTimelines()  // imported in widget target
@@ -250,13 +230,13 @@ final class AppState {
     private func saveRecentCurrencies() {
         let codes = recentCurrencies.map(\.code)
         if let data = try? JSONEncoder().encode(codes) {
-            UserDefaults.standard.set(data, forKey: kRecentCurrencies)
+            defaults.set(data, forKey: kRecentCurrencies)
         }
     }
 
-    private func loadRecentCurrencies() {
-        guard let data = UserDefaults.standard.data(forKey: kRecentCurrencies),
-              let codes = try? JSONDecoder().decode([String].self, from: data) else { return }
-        recentCurrencies = codes.compactMap { Currency.find(code: $0) }
+    private func loadPersistedCurrencies() -> [Currency] {
+        guard let data = defaults.data(forKey: kRecentCurrencies),
+              let codes = try? JSONDecoder().decode([String].self, from: data) else { return [] }
+        return codes.compactMap { Currency.find(code: $0) }
     }
 }

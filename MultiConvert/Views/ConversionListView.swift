@@ -12,21 +12,34 @@ struct ConversionListView: View {
 
     // MARK: - Drag state
     //
-    // Purely visual — `state.recentCurrencies` is never touched until the
-    // gesture ends. Every row's on-screen offset is a pure function of
-    // (index, draggingIndex, targetIndex), so there's no live array mutation
-    // to flip-flop at stride boundaries the way a repeated remove/insert on
-    // a shadow array could.
+    // Only two stored values drive the whole gesture: which row is being
+    // dragged, and how far the finger has moved since grabbing it.
+    // `state.recentCurrencies` itself is never touched until the gesture
+    // ends. `targetIndex` below is deliberately NOT @State — it's a pure
+    // function of these two values (plus the row count), so it can never
+    // drift out of sync with `dragTranslation` the way a separately-stored
+    // value updated from the same callback theoretically could.
     @State private var draggingIndex: Int?
     @State private var dragTranslation: CGFloat = 0
-    @State private var targetIndex: Int?
     @State private var rowHeight: CGFloat = 60
 
     private let rowSpacing: CGFloat = 8
 
+    /// Which slot the dragged row would land in if released right now.
+    /// Pure arithmetic on the translation delta — never on `location`,
+    /// which is relative to the row's own (currently shifting) frame and
+    /// would feed back into itself as the list rearranges.
+    private var targetIndex: Int? {
+        guard let source = draggingIndex else { return nil }
+        let stride = rowHeight + rowSpacing
+        guard stride > 0 else { return source }
+        let rowsCrossed = Int((dragTranslation / stride).rounded())
+        return min(max(source + rowsCrossed, 0), state.recentCurrencies.count - 1)
+    }
+
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: rowSpacing) {
+            VStack(spacing: rowSpacing) {
                 if state.recentCurrencies.isEmpty {
                     emptyState
                 } else {
@@ -50,15 +63,31 @@ struct ConversionListView: View {
                         )
                         .offset(y: rowOffset(for: index))
                         .zIndex(draggingIndex == index ? 1 : 0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: targetIndex)
+                        // The dragged row gets NO animation at all — it must
+                        // track the finger every pixel. Every other row
+                        // springs into its new slot when `targetIndex`
+                        // changes. Putting the nil-vs-spring choice directly
+                        // in the `.animation` call (rather than overriding it
+                        // afterwards via `.transaction`) is the one form
+                        // SwiftUI is guaranteed to honor consistently.
+                        .animation(
+                            draggingIndex == index ? nil : .spring(response: 0.3, dampingFraction: 0.8),
+                            value: targetIndex
+                        )
                     }
                 }
             }
             .padding(.top, 8)
             .padding(.bottom, 24)
         }
+        // A row-drag and a list-scroll are two different gestures reaching
+        // for the same touch; letting both stay armed is exactly the kind
+        // of arbitration that produces intermittent stutter. Off for the
+        // duration of the drag removes the contention outright.
+        .scrollDisabled(draggingIndex != nil)
         .onPreferenceChange(RowHeightKey.self) { height in
-            if height > 0 { rowHeight = height }
+            guard height > 0, abs(height - rowHeight) > 0.5 else { return }
+            rowHeight = height
         }
         .refreshable {
             await state.refresh()
@@ -105,33 +134,16 @@ struct ConversionListView: View {
     private func handleDragChanged(index: Int, translation: CGFloat) {
         if draggingIndex == nil {
             draggingIndex = index
-            targetIndex = index
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         }
         dragTranslation = translation
-
-        guard let source = draggingIndex else { return }
-        let stride = rowHeight + rowSpacing
-        guard stride > 0 else { return }
-
-        // Target index is always derived from the fixed drag-start index
-        // plus the full cumulative translation, never from a previously
-        // computed target — otherwise crossed rows get double-counted.
-        let rowsCrossed = Int((translation / stride).rounded())
-        let proposed = source + rowsCrossed
-        targetIndex = min(max(proposed, 0), state.recentCurrencies.count - 1)
     }
 
     private func handleDragEnded() {
-        defer {
-            draggingIndex = nil
-            targetIndex = nil
-            dragTranslation = 0
+        guard let source = draggingIndex, let target = targetIndex, source != target else {
+            resetDrag()
+            return
         }
-
-        guard let source = draggingIndex,
-              let target = targetIndex,
-              source != target else { return }
 
         let oldBase = state.baseCurrency
         withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
@@ -140,5 +152,12 @@ struct ConversionListView: View {
 
         let didRebase = state.baseCurrency != oldBase
         UIImpactFeedbackGenerator(style: didRebase ? .medium : .light).impactOccurred()
+
+        resetDrag()
+    }
+
+    private func resetDrag() {
+        draggingIndex = nil
+        dragTranslation = 0
     }
 }
