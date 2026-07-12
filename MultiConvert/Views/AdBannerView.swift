@@ -8,11 +8,13 @@ struct AdBannerView: View {
     private let adUnitID = "ca-app-pub-3258994800717071/4399651250"
     #endif
 
+    private let bannerHeight: CGFloat = 50
+
     var body: some View {
         GeometryReader { geo in
-            let adSize = currentOrientationAnchoredAdaptiveBanner(width: geo.size.width)
+            let adSize = inlineAdaptiveBanner(width: geo.size.width, maxHeight: bannerHeight)
             BannerRepresentable(adUnitID: adUnitID, adSize: adSize)
-                .frame(width: adSize.size.width, height: adSize.size.height)
+                .frame(width: geo.size.width, height: bannerHeight)
         }
         .frame(height: 50)
     }

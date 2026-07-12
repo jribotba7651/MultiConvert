@@ -184,16 +184,6 @@ struct SettingsView: View {
             labelRow("Bundle ID", value: "com.jibaroenlaluna.multiconvert")
             labelRow("API — Fiat", value: "frankfurter.app")
             labelRow("API — Crypto", value: "coingecko.com")
-
-            // IAP placeholder — not activated
-            HStack {
-                Text("Remove Ads (coming soon)")
-                    .foregroundStyle(Theme.secondaryText)
-                Spacer()
-                Text("$1.99")
-                    .foregroundStyle(Theme.secondaryText)
-            }
-            .listRowBackground(Theme.cardBackground)
         }
     }
 
