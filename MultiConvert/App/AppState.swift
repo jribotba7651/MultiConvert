@@ -101,6 +101,92 @@ final class AppState {
         baseCurrency = recentCurrencies[newIdx]
     }
 
+    // MARK: - Reordering & base (index 0 is sacred: it always holds the base)
+
+    /// Moves the currency at `sourceIndex` to `targetIndex`.
+    ///
+    /// Index 0 is sacred — it always holds the active base currency — so the
+    /// two directions behave differently:
+    ///   - Moving something *into* index 0 is a pure two-position swap with
+    ///     whatever was there; every other row keeps its place.
+    ///   - Moving the base *out* of index 0 (or any shift that never touches
+    ///     index 0) is a plain shift. Whoever naturally ends up at index 0
+    ///     afterwards becomes the base — no separate bookkeeping needed,
+    ///     since index 0's occupant and `baseCurrency` are reconciled
+    ///     unconditionally at the end of every move.
+    func moveCurrency(from sourceIndex: Int, to targetIndex: Int) {
+        guard recentCurrencies.indices.contains(sourceIndex),
+              recentCurrencies.indices.contains(targetIndex),
+              sourceIndex != targetIndex else { return }
+
+        if targetIndex == 0 {
+            recentCurrencies.swapAt(0, sourceIndex)
+        } else {
+            let moved = recentCurrencies.remove(at: sourceIndex)
+            recentCurrencies.insert(moved, at: targetIndex)
+        }
+
+        baseCurrency = recentCurrencies[0]
+        saveRecentCurrencies()
+    }
+
+    /// Changes the active base currency to `newBase` — the header's control,
+    /// distinct from `replaceCurrency(at:with:)` which only ever touches a
+    /// single row.
+    ///
+    /// Index 0 is sacred, so `newBase` always ends up there. If it was
+    /// already a row, this is just `moveCurrency` to index 0 (a swap with
+    /// the outgoing base). If it wasn't in the list at all, it's inserted at
+    /// index 0 and the outgoing base takes the row right after it, so
+    /// nothing is lost.
+    func swapToBase(_ newBase: Currency) {
+        guard newBase != baseCurrency else { return }
+
+        if let existingIndex = recentCurrencies.firstIndex(of: newBase) {
+            moveCurrency(from: existingIndex, to: 0)
+            return
+        }
+
+        let oldBase = baseCurrency
+        if recentCurrencies.isEmpty {
+            recentCurrencies = [newBase]
+        } else {
+            recentCurrencies[0] = newBase
+            recentCurrencies.insert(oldBase, at: 1)
+        }
+        baseCurrency = newBase
+        saveRecentCurrencies()
+    }
+
+    // MARK: - Per-row currency swap
+
+    /// Replaces the currency shown at `index` with `newCurrency`.
+    ///
+    /// If `newCurrency` is already elsewhere in the list, the two rows swap
+    /// places instead of creating a duplicate — the user picked that currency
+    /// deliberately, so a silent no-op or a "already in your list" toast would
+    /// just be friction. If the replaced currency was the active base, the
+    /// incoming currency becomes the new base too, since the base always
+    /// tracks whatever currency lives at its row.
+    func replaceCurrency(at index: Int, with newCurrency: Currency) {
+        guard recentCurrencies.indices.contains(index) else { return }
+        let oldCurrency = recentCurrencies[index]
+        guard oldCurrency != newCurrency else { return }
+
+        let wasBase = oldCurrency == baseCurrency
+
+        if let existingIndex = recentCurrencies.firstIndex(of: newCurrency) {
+            recentCurrencies.swapAt(index, existingIndex)
+        } else {
+            recentCurrencies[index] = newCurrency
+        }
+
+        if wasBase {
+            baseCurrency = newCurrency
+        }
+        saveRecentCurrencies()
+    }
+
     // MARK: - Refresh
 
     @MainActor

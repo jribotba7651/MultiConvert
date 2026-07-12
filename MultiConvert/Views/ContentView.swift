@@ -4,7 +4,7 @@ struct ContentView: View {
     @Environment(AppState.self) private var state
     @Environment(PurchaseManager.self) private var purchase
     @State private var showCurrencyPicker = false
-    @State private var showBasePicker = false
+    @State private var showBaseCurrencyPicker = false
     @State private var showSettings = false
 
     var body: some View {
@@ -28,8 +28,11 @@ struct ContentView: View {
         .sheet(isPresented: $showCurrencyPicker) {
             CurrencyPickerView(mode: .addToList)
         }
-        .sheet(isPresented: $showBasePicker) {
-            CurrencyPickerView(mode: .setBase)
+        .sheet(isPresented: $showBaseCurrencyPicker) {
+            CurrencyPickerSheet(currentSelection: state.baseCurrency, title: "Change Base Currency") { newCurrency in
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                state.swapToBase(newCurrency)
+            }
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
@@ -79,7 +82,7 @@ struct ContentView: View {
     private var displayPanel: some View {
         VStack(alignment: .trailing, spacing: 4) {
             Button {
-                showBasePicker = true
+                showBaseCurrencyPicker = true
             } label: {
                 HStack(spacing: 6) {
                     Text(state.baseCurrency.flag ?? state.baseCurrency.symbol)

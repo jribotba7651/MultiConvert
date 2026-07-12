@@ -47,6 +47,7 @@ APP_SOURCES = [
     "MultiConvert/Views/ConversionRowView.swift",
     "MultiConvert/Views/NumericKeypad.swift",
     "MultiConvert/Views/CurrencyPickerView.swift",
+    "MultiConvert/Views/CurrencyPickerSheet.swift",
     "MultiConvert/Views/SettingsView.swift",
     "MultiConvert/Views/AdBannerView.swift",
 ]
@@ -58,6 +59,9 @@ TEST_SOURCES = [
     "MultiConvertTests/CurrencyFormattingTests.swift",
     "MultiConvertTests/BaseCyclerTests.swift",
     "MultiConvertTests/PurchaseManagerTests.swift",
+    "MultiConvertTests/ReorderTests.swift",
+    "MultiConvertTests/ReplaceCurrencyTests.swift",
+    "MultiConvertTests/SwapToBaseTests.swift",
 ]
 
 UITEST_SOURCES = [

@@ -25,7 +25,7 @@ enum Theme {
 
     // Typography
     static let displayFont     = Font.system(size: 56, weight: .thin, design: .rounded)
-    static let conversionFont  = Font.system(size: 22, weight: .light, design: .rounded)
+    static let conversionFont  = Font.system(size: 24, weight: .light, design: .rounded)
     static let labelFont       = Font.system(size: 13, weight: .medium, design: .rounded)
     static let keypadFont      = Font.system(size: 28, weight: .regular, design: .rounded)
     static let badgeFont       = Font.system(size: 9, weight: .bold, design: .rounded)
