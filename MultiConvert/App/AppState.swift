@@ -27,7 +27,7 @@ final class AppState {
 
     private static let listCapacity = 10
     private static let defaultCurrencyCodes =
-        ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "MXN", "CNY", "BRL"]
+        ["USD", "BTC", "ETH", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "MXN"]
     private static var defaultCurrencies: [Currency] {
         defaultCurrencyCodes.compactMap { Currency.find(code: $0) }
     }
