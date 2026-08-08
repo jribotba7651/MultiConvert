@@ -77,7 +77,7 @@ struct SettingsView: View {
                                 .tint(Theme.accentText)
                                 .padding(.trailing, 4)
                         }
-                        Text(purchase.isPurchasing ? "Processing…" : "Remove Ads — $1.99")
+                        Text(purchase.isPurchasing ? "Processing…" : "Remove Ads — \(purchase.products.first?.displayPrice ?? "$1.99")")
                             .foregroundStyle(Theme.accentText)
                     }
                 }
@@ -89,6 +89,28 @@ struct SettingsView: View {
                         .font(.caption)
                         .foregroundStyle(Theme.staleWarning)
                         .listRowBackground(Theme.cardBackground)
+                }
+
+                if purchase.products.isEmpty {
+                    if purchase.isLoadingProducts {
+                        HStack(spacing: 8) {
+                            ProgressView()
+                                .tint(Theme.accentText)
+                            Text("Loading store…")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryText)
+                        }
+                        .listRowBackground(Theme.cardBackground)
+                    } else {
+                        Button {
+                            Task { await purchase.loadProducts() }
+                        } label: {
+                            Text(purchase.productsError ?? "Store unavailable — tap to retry")
+                                .font(.caption)
+                                .foregroundStyle(Theme.staleWarning)
+                        }
+                        .listRowBackground(Theme.cardBackground)
+                    }
                 }
             }
 
@@ -111,6 +133,17 @@ struct SettingsView: View {
             )) {
                 Text("2 places").tag(2)
                 Text("4 places").tag(4)
+            }
+            .pickerStyle(.segmented)
+            .listRowBackground(Theme.cardBackground)
+
+            Picker("Number Format", selection: Binding(
+                get: { state.separatorStyle },
+                set: { state.separatorStyle = $0; state.saveSeparatorStyle() }
+            )) {
+                ForEach(SeparatorStyle.allCases) { style in
+                    Text(style.example).tag(style)
+                }
             }
             .pickerStyle(.segmented)
             .listRowBackground(Theme.cardBackground)

@@ -21,7 +21,6 @@ struct ContentView: View {
                 keypadPanel
                 if !purchase.isPremium {
                     AdBannerView()
-                        .frame(height: 50)
                         .background(Theme.appBackground)
                 }
             }
@@ -123,11 +122,12 @@ struct ContentView: View {
 
     private var displayAmount: String {
         let raw = state.inputString
+        let style = state.separatorStyle
         if raw == "0" {
             let zeros = String(repeating: "0", count: state.decimalPlaces)
-            return "0.\(zeros)"
+            return "0\(style.decimalSeparator)\(zeros)"
         }
-        return raw
+        return CurrencyFormatter.groupedInput(raw, separatorStyle: style)
     }
 
     // MARK: - Staleness bar

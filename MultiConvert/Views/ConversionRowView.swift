@@ -17,7 +17,7 @@ struct ConversionRowView: View {
 
             // Converted value
             if let value = state.convertedValue(for: currency) {
-                Text(CurrencyFormatter.format(value, currency: currency, decimalPlaces: state.decimalPlaces))
+                Text(CurrencyFormatter.format(value, currency: currency, decimalPlaces: state.decimalPlaces, separatorStyle: state.separatorStyle))
                     .font(Theme.conversionFont)
                     .foregroundStyle(Theme.primaryText)
                     .lineLimit(1)

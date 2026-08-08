@@ -7,6 +7,8 @@ final class PurchaseManager {
     private(set) var isPremium: Bool
     private(set) var isPurchasing: Bool = false
     private(set) var products: [Product] = []
+    private(set) var isLoadingProducts = false
+    private(set) var productsError: String?
 
     private var updatesTask: Task<Void, Never>?
     private static let productID = "com.jibaroenlaluna.multiconvert.removeads"
@@ -28,10 +30,34 @@ final class PurchaseManager {
 
     func loadProducts() async {
         guard products.isEmpty else { return }
-        do {
-            products = try await Product.products(for: [Self.productID])
-        } catch {
-            // Non-fatal: button stays disabled if products can't be fetched.
+        await MainActor.run {
+            isLoadingProducts = true
+            productsError = nil
+        }
+        defer { Task { await MainActor.run { self.isLoadingProducts = false } } }
+
+        // Retry a few times: a fresh launch can race the network, and an empty
+        // result (no products configured / agreements not active yet) is worth
+        // surfacing instead of leaving the UI stuck silently.
+        for attempt in 1...3 {
+            do {
+                let fetched = try await Product.products(for: [Self.productID])
+                await MainActor.run {
+                    self.products = fetched
+                    self.productsError = fetched.isEmpty
+                        ? "Store unavailable. Check your connection or try again later."
+                        : nil
+                }
+                if !fetched.isEmpty { return }
+            } catch {
+                print("[Purchase] loadProducts attempt \(attempt) failed: \(error.localizedDescription)")
+                await MainActor.run {
+                    self.productsError = error.localizedDescription
+                }
+            }
+            if attempt < 3 {
+                try? await Task.sleep(nanoseconds: UInt64(attempt) * 1_000_000_000)
+            }
         }
     }
 

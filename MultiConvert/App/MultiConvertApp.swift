@@ -18,8 +18,9 @@ struct MultiConvertApp: App {
                 .environment(purchase)
                 .preferredColorScheme(.dark)
                 .task {
-                    await appState.refresh()
-                    await purchase.loadProducts()
+                    async let rates: Void = appState.refresh()
+                    async let store: Void = purchase.loadProducts()
+                    _ = await (rates, store)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     requestTrackingIfNeeded()

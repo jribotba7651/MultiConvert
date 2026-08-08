@@ -90,4 +90,68 @@ struct CurrencyFormattingTests {
             #expect(Currency.find(code: code) != nil, "Missing crypto: \(code)")
         }
     }
+
+    // MARK: - Separator style
+
+    @Test func commaGroupingSeparators() {
+        let result = CurrencyFormatter.formatFiat(
+            1234.56, code: "USD", decimalPlaces: 2, separatorStyle: .commaGrouping
+        )
+        #expect(result.contains("1,234"))
+        #expect(result.contains(".56"))
+    }
+
+    @Test func periodGroupingSeparators() {
+        let result = CurrencyFormatter.formatFiat(
+            1234.56, code: "USD", decimalPlaces: 2, separatorStyle: .periodGrouping
+        )
+        #expect(result.contains("1.234"))
+        #expect(result.contains(",56"))
+    }
+
+    @Test func periodGroupingIsUnambiguous() {
+        // Must never render "1.234.56" — decimal must flip to a comma.
+        let result = CurrencyFormatter.formatFiat(
+            1234.56, code: "USD", decimalPlaces: 2, separatorStyle: .periodGrouping
+        )
+        #expect(!result.contains(".56"))
+    }
+
+    @Test func cryptoRespectsPeriodGrouping() {
+        let result = CurrencyFormatter.formatCrypto(
+            12345.0, symbol: "₿", decimalPlaces: 2, separatorStyle: .periodGrouping
+        )
+        #expect(result.contains("₿"))
+        #expect(result.contains("12.345"))
+    }
+
+    @Test func groupedInputCommaStyle() {
+        #expect(CurrencyFormatter.groupedInput("100001000", separatorStyle: .commaGrouping) == "100,001,000")
+    }
+
+    @Test func groupedInputPeriodStyle() {
+        #expect(CurrencyFormatter.groupedInput("100001000", separatorStyle: .periodGrouping) == "100.001.000")
+    }
+
+    @Test func groupedInputPreservesDecimalTyping() {
+        #expect(CurrencyFormatter.groupedInput("1234.5", separatorStyle: .commaGrouping) == "1,234.5")
+        #expect(CurrencyFormatter.groupedInput("1234.5", separatorStyle: .periodGrouping) == "1.234,5")
+    }
+
+    @Test func groupedInputPreservesTrailingDot() {
+        #expect(CurrencyFormatter.groupedInput("1234.", separatorStyle: .commaGrouping) == "1,234.")
+        #expect(CurrencyFormatter.groupedInput("1234.", separatorStyle: .periodGrouping) == "1.234,")
+    }
+
+    @Test func groupedInputSmallNumber() {
+        #expect(CurrencyFormatter.groupedInput("50", separatorStyle: .commaGrouping) == "50")
+        #expect(CurrencyFormatter.groupedInput("999", separatorStyle: .periodGrouping) == "999")
+    }
+
+    @Test func separatorStyleCharacters() {
+        #expect(SeparatorStyle.commaGrouping.groupingSeparator == ",")
+        #expect(SeparatorStyle.commaGrouping.decimalSeparator == ".")
+        #expect(SeparatorStyle.periodGrouping.groupingSeparator == ".")
+        #expect(SeparatorStyle.periodGrouping.decimalSeparator == ",")
+    }
 }

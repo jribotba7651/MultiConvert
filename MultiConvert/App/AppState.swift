@@ -3,6 +3,7 @@ import Observation
 
 private let kRecentCurrencies = "recentCurrencies_v2"
 private let kDecimalPlaces    = "decimalPlaces"
+private let kSeparatorStyle   = "separatorStyle"
 private let kWidgetBase       = "widgetBaseAmount"
 private let kWidgetCurrency   = "widgetBaseCurrency"
 
@@ -38,6 +39,7 @@ final class AppState {
 
     // MARK: - Settings
     var decimalPlaces: Int = 2
+    var separatorStyle: SeparatorStyle = .commaGrouping
     var widgetBaseAmount: String = "1"
     var widgetBaseCurrency: Currency = .usd
 
@@ -55,6 +57,15 @@ final class AppState {
 
         decimalPlaces = defaults.integer(forKey: kDecimalPlaces)
         if decimalPlaces == 0 { decimalPlaces = 2 }
+
+        // On first launch (no stored value) default to the device locale's
+        // convention; afterwards honor whatever the user picked.
+        if let raw = defaults.object(forKey: kSeparatorStyle) as? Int,
+           let style = SeparatorStyle(rawValue: raw) {
+            separatorStyle = style
+        } else {
+            separatorStyle = .deviceDefault
+        }
 
         widgetBaseAmount = defaults.string(forKey: kWidgetBase) ?? "1"
         if let code = defaults.string(forKey: kWidgetCurrency),
@@ -209,6 +220,10 @@ final class AppState {
 
     func saveDecimalPlaces() {
         defaults.set(decimalPlaces, forKey: kDecimalPlaces)
+    }
+
+    func saveSeparatorStyle() {
+        defaults.set(separatorStyle.rawValue, forKey: kSeparatorStyle)
     }
 
     func saveWidgetSettings() {
