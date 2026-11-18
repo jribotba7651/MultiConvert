@@ -29,7 +29,6 @@
 		000000000000000000000067 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000044 /* SettingsView.swift */; };
 		000000000000000000000068 /* AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000045 /* AdBannerView.swift */; };
 		000000000000000000000069 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000051 /* Assets.xcassets */; };
-		00000000000000000000006A /* MultiConvert.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000052 /* MultiConvert.storekit */; };
 		00000000000000000000006B /* ConversionMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000046 /* ConversionMathTests.swift */; };
 		00000000000000000000006C /* MRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000047 /* MRUCacheTests.swift */; };
 		00000000000000000000006D /* CacheStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000048 /* CacheStalenessTests.swift */; };
@@ -466,7 +465,6 @@
 			files = (
 				000000000000000000000069 /* Assets.xcassets in Resources */,
 				00000000000000000000008F /* PrivacyInfo.xcprivacy in Resources */,
-				00000000000000000000006A /* MultiConvert.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

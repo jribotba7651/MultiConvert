@@ -60,12 +60,16 @@ private struct BannerRepresentable: UIViewRepresentable {
         }
 
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
+            #if DEBUG
             print("[AdBanner] Failed to load: \(error.localizedDescription)")
+            #endif
             isLoaded = false
         }
 
         func bannerViewDidReceiveAd(_ bannerView: BannerView) {
+            #if DEBUG
             print("[AdBanner] Ad loaded, size: \(bannerView.adSize.size)")
+            #endif
             isLoaded = true
         }
     }
