@@ -7,7 +7,12 @@ import Foundation
 /// Conversion formula: result = amount × ratesPerUSD[to] / ratesPerUSD[from]
 struct RateSnapshot: Codable {
     let ratesPerUSD: [String: Double]
+    /// When the oldest part of this snapshot was fetched. Drives staleness.
     let fetchedAt: Date
+    /// Per-source fetch times. Optional so snapshots cached by older builds
+    /// (which only had `fetchedAt`) still decode.
+    var fiatFetchedAt: Date?
+    var cryptoFetchedAt: Date?
 
     var isStale: Bool {
         Date().timeIntervalSince(fetchedAt) > 86_400

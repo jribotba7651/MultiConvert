@@ -37,6 +37,8 @@ final class AppState {
     var snapshot: RateSnapshot?
     var isLoading: Bool = false
     var fetchError: String?
+    /// Sources that failed on the last refresh; their rates come from cache.
+    var failedSources: [RateSource] = []
 
     // MARK: - Settings
     var decimalPlaces: Int = 2
@@ -45,7 +47,7 @@ final class AppState {
     var widgetBaseCurrency: Currency = .usd
 
     // MARK: - Engine
-    private let engine = ConversionEngine()
+    private let engine: ConversionEngine
 
     // Injectable so tests can isolate persistence; production uses the
     // App Group suite so the widget sees the same list and settings.
@@ -53,8 +55,9 @@ final class AppState {
 
     // MARK: - Init
 
-    init(defaults: UserDefaults = AppGroup.defaults) {
+    init(defaults: UserDefaults = AppGroup.defaults, engine: ConversionEngine = ConversionEngine()) {
         self.defaults = defaults
+        self.engine = engine
 
         decimalPlaces = defaults.integer(forKey: kDecimalPlaces)
         if decimalPlaces == 0 { decimalPlaces = 2 }
@@ -95,6 +98,15 @@ final class AppState {
 
     var lastUpdated: Date? {
         snapshot?.fetchedAt
+    }
+
+    /// When the given source's rates were last fetched successfully.
+    func lastUpdated(for source: RateSource) -> Date? {
+        guard let snapshot else { return nil }
+        switch source {
+        case .fiat:   return snapshot.fiatFetchedAt ?? snapshot.fetchedAt
+        case .crypto: return snapshot.cryptoFetchedAt ?? snapshot.fetchedAt
+        }
     }
 
     // MARK: - Conversion
@@ -187,9 +199,12 @@ final class AppState {
         isLoading = true
         fetchError = nil
         do {
-            snapshot = try await engine.fetchRates()
+            let result = try await engine.fetchRates()
+            snapshot = result.snapshot
+            failedSources = result.failedSources
             reloadWidgets()
         } catch {
+            failedSources = RateSource.allCases
             fetchError = error.localizedDescription
         }
         isLoading = false

@@ -16,6 +16,7 @@ struct ContentView: View {
                 headerBar
                 displayPanel
                 stalenessBar
+                sourceFailureBar
                 Divider().background(Theme.cardBackground)
                 ConversionListView()
                     .frame(maxHeight: .infinity)
@@ -158,6 +159,37 @@ struct ContentView: View {
             .foregroundStyle(Theme.fiatBadge)
             .padding(.horizontal, 16)
             .padding(.vertical, 4)
+        }
+    }
+
+    // MARK: - Source failure bar
+
+    /// Names each API that failed on the last refresh and how old its
+    /// (cached) rates are.
+    @ViewBuilder
+    private var sourceFailureBar: some View {
+        if !state.isLoading && !state.failedSources.isEmpty {
+            VStack(alignment: .leading, spacing: 2) {
+                ForEach(state.failedSources, id: \.self) { source in
+                    HStack(spacing: 6) {
+                        Image(systemName: "wifi.exclamationmark")
+                            .font(.system(size: 11))
+                        if let updated = state.lastUpdated(for: source) {
+                            Text("\(source.displayName) unavailable — last updated \(updated, style: .relative) ago")
+                        } else {
+                            Text("\(source.displayName) unavailable — no saved rates yet")
+                        }
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+            .font(.system(size: 11, weight: .medium, design: .rounded))
+            .foregroundStyle(Theme.staleWarning)
+            .lineLimit(2)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 6)
+            .background(Theme.staleWarning.opacity(0.12))
+            .accessibilityElement(children: .combine)
         }
     }
 
