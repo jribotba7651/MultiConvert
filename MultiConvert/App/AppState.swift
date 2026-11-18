@@ -1,11 +1,12 @@
 import Foundation
 import Observation
+import WidgetKit
 
-private let kRecentCurrencies = "recentCurrencies_v2"
-private let kDecimalPlaces    = "decimalPlaces"
-private let kSeparatorStyle   = "separatorStyle"
-private let kWidgetBase       = "widgetBaseAmount"
-private let kWidgetCurrency   = "widgetBaseCurrency"
+private let kRecentCurrencies = AppGroup.Keys.recentCurrencies
+private let kDecimalPlaces    = AppGroup.Keys.decimalPlaces
+private let kSeparatorStyle   = AppGroup.Keys.separatorStyle
+private let kWidgetBase       = AppGroup.Keys.widgetBase
+private let kWidgetCurrency   = AppGroup.Keys.widgetCurrency
 
 @Observable
 final class AppState {
@@ -46,13 +47,13 @@ final class AppState {
     // MARK: - Engine
     private let engine = ConversionEngine()
 
-    // Injectable so tests can isolate persistence from UserDefaults.standard;
-    // production always uses .standard.
+    // Injectable so tests can isolate persistence; production uses the
+    // App Group suite so the widget sees the same list and settings.
     private let defaults: UserDefaults
 
     // MARK: - Init
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = AppGroup.defaults) {
         self.defaults = defaults
 
         decimalPlaces = defaults.integer(forKey: kDecimalPlaces)
@@ -117,6 +118,7 @@ final class AppState {
         }
         recentCurrencies = Array(deduped.prefix(Self.listCapacity))
         saveRecentCurrencies()
+        reloadWidgets()
     }
 
     // MARK: - Add (header "+")
@@ -186,6 +188,7 @@ final class AppState {
         fetchError = nil
         do {
             snapshot = try await engine.fetchRates()
+            reloadWidgets()
         } catch {
             fetchError = error.localizedDescription
         }
@@ -220,24 +223,28 @@ final class AppState {
 
     func saveDecimalPlaces() {
         defaults.set(decimalPlaces, forKey: kDecimalPlaces)
+        reloadWidgets()
     }
 
     func saveSeparatorStyle() {
         defaults.set(separatorStyle.rawValue, forKey: kSeparatorStyle)
+        reloadWidgets()
     }
 
     func saveWidgetSettings() {
         defaults.set(widgetBaseAmount, forKey: kWidgetBase)
         defaults.set(widgetBaseCurrency.code, forKey: kWidgetCurrency)
-        // Notify widget to reload
-        #if canImport(WidgetKit)
-        // WidgetCenter.shared.reloadAllTimelines()  // imported in widget target
-        #endif
+        reloadWidgets()
     }
 
     func clearCache() {
         engine.clearCache()
         snapshot = nil
+        reloadWidgets()
+    }
+
+    private func reloadWidgets() {
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     // MARK: - Persistence

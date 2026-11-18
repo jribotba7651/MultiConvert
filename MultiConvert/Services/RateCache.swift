@@ -1,12 +1,15 @@
 import Foundation
 
-/// Persists the last successful RateSnapshot to the Caches directory as JSON.
+/// Persists the last successful RateSnapshot as JSON in the shared App Group
+/// container, so the widget extension reads the same rates as the app.
 final class RateCache {
     private let fileURL: URL
 
-    init(filename: String = "multiconvert_rates.json") {
-        let dir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        fileURL = dir.appendingPathComponent(filename)
+    init(
+        filename: String = AppGroup.rateCacheFilename,
+        directory: URL = AppGroup.containerURL
+    ) {
+        fileURL = directory.appendingPathComponent(filename)
     }
 
     var snapshot: RateSnapshot? {

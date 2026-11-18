@@ -44,6 +44,12 @@
 		000000000000000000000076 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000053 /* Assets.xcassets */; };
 		9BE067A7300426B80061DEC3 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE067A6300426B80061DEC3 /* GoogleMobileAds */; };
 		000000000000000000000080 /* MultiConvertWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00000000000000000000007A /* MultiConvertWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		000000000000000000000086 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000083 /* AppGroup.swift */; };
+		000000000000000000000087 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000083 /* AppGroup.swift */; };
+		000000000000000000000088 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000033 /* Currency.swift */; };
+		000000000000000000000089 /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* CurrencyRate.swift */; };
+		00000000000000000000008A /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003C /* CurrencyFormatter.swift */; };
+		00000000000000000000008B /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +131,9 @@
 		000000000000000000000079 /* MultiConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00000000000000000000007A /* MultiConvertWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MultiConvertWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		000000000000000000000083 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
+		000000000000000000000084 /* MultiConvert.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiConvert.entitlements; sourceTree = "<group>"; };
+		000000000000000000000085 /* MultiConvertWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiConvertWidget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +189,8 @@
 				000000000000000000000023 /* Utilities */,
 				000000000000000000000024 /* Views */,
 				000000000000000000000025 /* Resources */,
+				00000000000000000000008C /* Shared */,
+				000000000000000000000084 /* MultiConvert.entitlements */,
 			);
 			path = MultiConvert;
 			sourceTree = "<group>";
@@ -279,6 +290,7 @@
 				000000000000000000000050 /* MultiConvertWidget.swift */,
 				000000000000000000000053 /* Assets.xcassets */,
 				000000000000000000000082 /* Info.plist */,
+				000000000000000000000085 /* MultiConvertWidget.entitlements */,
 			);
 			path = MultiConvertWidget;
 			sourceTree = "<group>";
@@ -292,6 +304,14 @@
 				00000000000000000000007A /* MultiConvertWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		00000000000000000000008C /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000083 /* AppGroup.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -463,6 +483,7 @@
 				000000000000000000000066 /* CurrencyPickerSheet.swift in Sources */,
 				000000000000000000000067 /* SettingsView.swift in Sources */,
 				000000000000000000000068 /* AdBannerView.swift in Sources */,
+				000000000000000000000086 /* AppGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +516,11 @@
 			files = (
 				000000000000000000000074 /* MultiConvertWidgetBundle.swift in Sources */,
 				000000000000000000000075 /* MultiConvertWidget.swift in Sources */,
+				000000000000000000000087 /* AppGroup.swift in Sources */,
+				000000000000000000000088 /* Currency.swift in Sources */,
+				000000000000000000000089 /* CurrencyRate.swift in Sources */,
+				00000000000000000000008A /* CurrencyFormatter.swift in Sources */,
+				00000000000000000000008B /* RateCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +632,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = MultiConvert/MultiConvert.entitlements;
 				INFOPLIST_FILE = MultiConvert/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvert;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -656,6 +683,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = MultiConvert/MultiConvert.entitlements;
 				INFOPLIST_FILE = MultiConvert/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvert;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -861,6 +889,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = MultiConvertWidget/MultiConvertWidget.entitlements;
 				INFOPLIST_FILE = MultiConvertWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -903,6 +932,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = MultiConvertWidget/MultiConvertWidget.entitlements;
 				INFOPLIST_FILE = MultiConvertWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

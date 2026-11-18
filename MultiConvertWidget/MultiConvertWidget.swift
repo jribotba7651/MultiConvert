@@ -3,106 +3,124 @@ import SwiftUI
 
 // MARK: - Timeline Entry
 
+struct ConversionRow: Hashable {
+    let code: String
+    let value: String
+}
+
 struct ConversionEntry: TimelineEntry {
     let date: Date
-    let baseAmount: Double
-    let baseCurrency: String
-    let conversions: [(code: String, name: String, value: Double, isCrypto: Bool)]
+    let baseLabel: String
+    let rows: [ConversionRow]
     let isStale: Bool
+    /// Shown instead of rows when there is no cached data yet.
+    let message: String?
 }
 
 // MARK: - Provider
 
 struct ConversionProvider: TimelineProvider {
     func placeholder(in context: Context) -> ConversionEntry {
-        sampleEntry()
+        Self.sampleEntry
     }
 
     func getSnapshot(in context: Context, completion: @escaping (ConversionEntry) -> Void) {
-        completion(buildEntry())
+        // The widget gallery preview may use sample data if the app has never
+        // fetched rates; a real widget on the home screen never does.
+        let entry = Self.buildEntry()
+        if context.isPreview && entry.message != nil {
+            completion(Self.sampleEntry)
+        } else {
+            completion(entry)
+        }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ConversionEntry>) -> Void) {
-        let entry = buildEntry()
-        // Refresh every 60 minutes
+        // The app reloads timelines whenever rates or settings change; this
+        // hourly policy only re-evaluates staleness.
         let next = Calendar.current.date(byAdding: .minute, value: 60, to: Date()) ?? Date()
-        completion(Timeline(entries: [entry], policy: .after(next)))
+        completion(Timeline(entries: [Self.buildEntry()], policy: .after(next)))
     }
 
-    // MARK: - Build
+    // MARK: - Build from shared App Group data
 
-    private func buildEntry() -> ConversionEntry {
-        let defaults = UserDefaults.standard
-        let baseAmountStr = defaults.string(forKey: "widgetBaseAmount") ?? "1"
-        let baseAmount = Double(baseAmountStr) ?? 1
-        let baseCurrencyCode = defaults.string(forKey: "widgetBaseCurrency") ?? "USD"
+    static func buildEntry() -> ConversionEntry {
+        let defaults = AppGroup.defaults
 
-        guard let data = try? Data(contentsOf: cacheFileURL()),
-              let snapshot = try? JSONDecoder().decode(RateSnapshot.self, from: data),
-              let fromRate = snapshot.ratesPerUSD[baseCurrencyCode],
-              fromRate > 0
-        else {
-            return sampleEntry()
+        let amountText = (defaults.string(forKey: AppGroup.Keys.widgetBase) ?? "1")
+            .replacingOccurrences(of: ",", with: ".")
+        let amount = Double(amountText) ?? 1
+        let base = defaults.string(forKey: AppGroup.Keys.widgetCurrency)
+            .flatMap(Currency.find(code:)) ?? .usd
+
+        var decimals = defaults.integer(forKey: AppGroup.Keys.decimalPlaces)
+        if decimals == 0 { decimals = 2 }
+        let style = (defaults.object(forKey: AppGroup.Keys.separatorStyle) as? Int)
+            .flatMap(SeparatorStyle.init(rawValue:)) ?? .deviceDefault
+
+        let baseLabel = "\(CurrencyFormatter.groupedInput(trimmed(amount), separatorStyle: style)) \(base.code)"
+
+        guard let snapshot = RateCache().snapshot else {
+            return ConversionEntry(
+                date: Date(), baseLabel: baseLabel, rows: [], isStale: false,
+                message: "Open MultiConvert to load rates"
+            )
         }
 
-        let targets: [String] = ["EUR", "JPY", "GBP", "BTC"]
-        var conversions: [(code: String, name: String, value: Double, isCrypto: Bool)] = []
-
-        for code in targets {
-            guard let toRate = snapshot.ratesPerUSD[code] else { continue }
-            let value = baseAmount * toRate / fromRate
-            let isCrypto = ["BTC", "ETH", "SOL", "USDC", "USDT"].contains(code)
-            let name = currencyName(code)
-            conversions.append((code: code, name: name, value: value, isCrypto: isCrypto))
-        }
+        let rows: [ConversionRow] = targetCurrencies(excluding: base, defaults: defaults)
+            .compactMap { currency in
+                guard let value = snapshot.convert(amount: amount, from: base.code, to: currency.code) else {
+                    return nil
+                }
+                let text = CurrencyFormatter.format(
+                    value, currency: currency, decimalPlaces: decimals, separatorStyle: style
+                )
+                return ConversionRow(code: currency.code, value: text)
+            }
 
         return ConversionEntry(
             date: Date(),
-            baseAmount: baseAmount,
-            baseCurrency: baseCurrencyCode,
-            conversions: conversions,
-            isStale: snapshot.isStale
+            baseLabel: baseLabel,
+            rows: rows,
+            isStale: snapshot.isStale,
+            message: rows.isEmpty ? "No rates for \(base.code) yet" : nil
         )
     }
 
-    private func sampleEntry() -> ConversionEntry {
-        ConversionEntry(
-            date: Date(),
-            baseAmount: 100,
-            baseCurrency: "USD",
-            conversions: [
-                (code: "EUR", name: "Euro",       value: 92.6,      isCrypto: false),
-                (code: "JPY", name: "Yen",        value: 14920,     isCrypto: false),
-                (code: "GBP", name: "Pound",      value: 78.9,      isCrypto: false),
-                (code: "BTC", name: "Bitcoin",    value: 0.00154,   isCrypto: true),
-            ],
-            isStale: false
+    /// The user's own currency list from the app (minus the widget base),
+    /// up to four entries.
+    private static func targetCurrencies(excluding base: Currency, defaults: UserDefaults) -> [Currency] {
+        var codes: [String] = []
+        if let data = defaults.data(forKey: AppGroup.Keys.recentCurrencies),
+           let stored = try? JSONDecoder().decode([String].self, from: data) {
+            codes = stored
+        }
+        if codes.isEmpty { codes = ["USD", "EUR", "GBP", "JPY", "BTC"] }
+        return Array(
+            codes.filter { $0 != base.code }
+                .compactMap(Currency.find(code:))
+                .prefix(4)
         )
     }
 
-    private func cacheFileURL() -> URL {
-        let dir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        return dir.appendingPathComponent("multiconvert_rates.json")
+    /// "1" instead of "1.0"; keeps up to two decimals otherwise.
+    private static func trimmed(_ v: Double) -> String {
+        v.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(v)) : String(format: "%.2f", v)
     }
 
-    private func currencyName(_ code: String) -> String {
-        let names: [String: String] = [
-            "USD": "Dollar", "EUR": "Euro", "JPY": "Yen", "GBP": "Pound",
-            "CAD": "C. Dollar", "AUD": "A. Dollar", "CHF": "Franc",
-            "CNY": "Yuan", "KRW": "Won", "MXN": "Peso", "BRL": "Real",
-            "BTC": "Bitcoin", "ETH": "Ethereum", "SOL": "Solana",
-            "USDC": "USD Coin", "USDT": "Tether",
-        ]
-        return names[code] ?? code
-    }
-}
-
-// MARK: - Local RateSnapshot (shared model, no module dependency)
-
-private struct RateSnapshot: Codable {
-    let ratesPerUSD: [String: Double]
-    let fetchedAt: Date
-    var isStale: Bool { Date().timeIntervalSince(fetchedAt) > 86_400 }
+    // Placeholder / gallery preview only. Never shown as live data.
+    static let sampleEntry = ConversionEntry(
+        date: Date(),
+        baseLabel: "100 USD",
+        rows: [
+            ConversionRow(code: "EUR", value: "€92.60"),
+            ConversionRow(code: "JPY", value: "¥14,920"),
+            ConversionRow(code: "GBP", value: "£78.90"),
+            ConversionRow(code: "BTC", value: "₿ 0.001540"),
+        ],
+        isStale: false,
+        message: nil
+    )
 }
 
 // MARK: - Widget Views
@@ -113,8 +131,12 @@ struct SmallWidgetView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             header
-            ForEach(entry.conversions.prefix(2), id: \.code) { item in
-                conversionRow(item)
+            if let message = entry.message {
+                messageView(message)
+            } else {
+                ForEach(entry.rows.prefix(2), id: \.code) { item in
+                    conversionRow(item)
+                }
             }
             Spacer(minLength: 0)
         }
@@ -124,7 +146,7 @@ struct SmallWidgetView: View {
 
     private var header: some View {
         HStack {
-            Text("\(formatAmount(entry.baseAmount)) \(entry.baseCurrency)")
+            Text(entry.baseLabel)
                 .font(.system(size: 13, weight: .semibold, design: .rounded))
                 .foregroundStyle(Color(hex: "#D4943A"))
             Spacer()
@@ -136,13 +158,13 @@ struct SmallWidgetView: View {
         }
     }
 
-    private func conversionRow(_ item: (code: String, name: String, value: Double, isCrypto: Bool)) -> some View {
+    private func conversionRow(_ item: ConversionRow) -> some View {
         HStack {
             Text(item.code)
                 .font(.system(size: 11, weight: .medium, design: .rounded))
                 .foregroundStyle(Color(hex: "#9A9AA8"))
             Spacer()
-            Text(formatValue(item.value, isCrypto: item.isCrypto))
+            Text(item.value)
                 .font(.system(size: 13, weight: .regular, design: .rounded))
                 .foregroundStyle(Color(hex: "#F0EFE8"))
                 .lineLimit(1)
@@ -150,13 +172,6 @@ struct SmallWidgetView: View {
         }
     }
 
-    private func formatAmount(_ v: Double) -> String {
-        v.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(v)) : String(format: "%.2f", v)
-    }
-
-    private func formatValue(_ v: Double, isCrypto: Bool) -> String {
-        isCrypto ? String(format: "%.6f", v) : String(format: "%.2f", v)
-    }
 }
 
 struct MediumWidgetView: View {
@@ -166,15 +181,21 @@ struct MediumWidgetView: View {
         HStack(alignment: .top, spacing: 16) {
             VStack(alignment: .leading, spacing: 6) {
                 headerStack
-                ForEach(entry.conversions.prefix(2), id: \.code) { item in
-                    conversionRow(item)
+                if let message = entry.message {
+                    messageView(message)
+                } else {
+                    ForEach(entry.rows.prefix(2), id: \.code) { item in
+                        conversionRow(item)
+                    }
                 }
             }
-            Divider().background(Color(hex: "#26262D"))
-            VStack(alignment: .leading, spacing: 6) {
-                Spacer().frame(height: 18)
-                ForEach(entry.conversions.dropFirst(2).prefix(2), id: \.code) { item in
-                    conversionRow(item)
+            if entry.message == nil {
+                Divider().background(Color(hex: "#26262D"))
+                VStack(alignment: .leading, spacing: 6) {
+                    Spacer().frame(height: 18)
+                    ForEach(entry.rows.dropFirst(2).prefix(2), id: \.code) { item in
+                        conversionRow(item)
+                    }
                 }
             }
         }
@@ -183,17 +204,24 @@ struct MediumWidgetView: View {
     }
 
     private var headerStack: some View {
-        Text("\(formatBase(entry.baseAmount)) \(entry.baseCurrency)")
-            .font(.system(size: 14, weight: .semibold, design: .rounded))
-            .foregroundStyle(Color(hex: "#D4943A"))
+        HStack(spacing: 6) {
+            Text(entry.baseLabel)
+                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color(hex: "#D4943A"))
+            if entry.isStale {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color(hex: "#C85A2A"))
+            }
+        }
     }
 
-    private func conversionRow(_ item: (code: String, name: String, value: Double, isCrypto: Bool)) -> some View {
+    private func conversionRow(_ item: ConversionRow) -> some View {
         VStack(alignment: .leading, spacing: 1) {
             Text(item.code)
                 .font(.system(size: 10, weight: .medium, design: .rounded))
                 .foregroundStyle(Color(hex: "#9A9AA8"))
-            Text(formatValue(item.value, isCrypto: item.isCrypto))
+            Text(item.value)
                 .font(.system(size: 15, weight: .regular, design: .rounded))
                 .foregroundStyle(Color(hex: "#F0EFE8"))
                 .lineLimit(1)
@@ -201,13 +229,13 @@ struct MediumWidgetView: View {
         }
     }
 
-    private func formatBase(_ v: Double) -> String {
-        v.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(v)) : String(format: "%.2f", v)
-    }
+}
 
-    private func formatValue(_ v: Double, isCrypto: Bool) -> String {
-        isCrypto ? String(format: "%.6f", v) : String(format: "%.2f", v)
-    }
+private func messageView(_ text: String) -> some View {
+    Text(text)
+        .font(.system(size: 11, weight: .regular, design: .rounded))
+        .foregroundStyle(Color(hex: "#9A9AA8"))
+        .fixedSize(horizontal: false, vertical: true)
 }
 
 // MARK: - Color helper for widget (can't import Theme module)
