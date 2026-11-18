@@ -5,6 +5,7 @@ import Foundation
 @Suite("Purchase Manager")
 struct PurchaseManagerTests {
 
+    @MainActor
     @Test func isPremiumDefaultsFalse() {
         UserDefaults.standard.removeObject(forKey: "isPremium")
         let manager = PurchaseManager()

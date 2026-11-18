@@ -120,10 +120,25 @@ struct SettingsView: View {
             Button {
                 Task { await purchase.restorePurchases() }
             } label: {
-                Text("Restore Purchases")
-                    .foregroundStyle(Theme.secondaryText)
+                HStack {
+                    Text(purchase.isRestoring ? "Restoring…" : "Restore Purchases")
+                        .foregroundStyle(Theme.secondaryText)
+                    if purchase.isRestoring {
+                        Spacer()
+                        ProgressView()
+                            .tint(Theme.secondaryText)
+                    }
+                }
             }
+            .disabled(purchase.isRestoring || purchase.isPurchasing)
             .listRowBackground(Theme.cardBackground)
+
+            if let message = purchase.statusMessage {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryText)
+                    .listRowBackground(Theme.cardBackground)
+            }
         }
     }
 
