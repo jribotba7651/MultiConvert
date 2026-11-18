@@ -43,6 +43,7 @@
 		000000000000000000000075 /* MultiConvertWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000050 /* MultiConvertWidget.swift */; };
 		000000000000000000000076 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000053 /* Assets.xcassets */; };
 		9BE067A7300426B80061DEC3 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE067A6300426B80061DEC3 /* GoogleMobileAds */; };
+		000000000000000000000080 /* MultiConvertWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00000000000000000000007A /* MultiConvertWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,20 @@
 			remoteInfo = MultiConvert;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		000000000000000000000081 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				000000000000000000000080 /* MultiConvertWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		000000000000000000000031 /* MultiConvertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiConvertApp.swift; sourceTree = "<group>"; };
@@ -109,6 +124,7 @@
 		000000000000000000000078 /* MultiConvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000079 /* MultiConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiConvertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00000000000000000000007A /* MultiConvertWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MultiConvertWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +278,7 @@
 				00000000000000000000004F /* MultiConvertWidgetBundle.swift */,
 				000000000000000000000050 /* MultiConvertWidget.swift */,
 				000000000000000000000053 /* Assets.xcassets */,
+				000000000000000000000082 /* Info.plist */,
 			);
 			path = MultiConvertWidget;
 			sourceTree = "<group>";
@@ -287,6 +304,7 @@
 				000000000000000000000005 /* Sources */,
 				000000000000000000000007 /* Frameworks */,
 				000000000000000000000006 /* Resources */,
+				000000000000000000000081 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -843,8 +861,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiConvertWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
-				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -885,8 +903,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiConvertWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MultiConvertWidget;
-				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
