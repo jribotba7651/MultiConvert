@@ -238,12 +238,32 @@ struct SettingsView: View {
 
     @ViewBuilder
     private var aboutSection: some View {
-        Section("About") {
-            labelRow("Version", value: "1.0.0")
-            labelRow("Bundle ID", value: "com.jibaroenlaluna.multiconvert")
-            labelRow("API — Fiat", value: "frankfurter.app")
-            labelRow("API — Crypto", value: "coingecko.com")
+        Section {
+            labelRow("Version", value: appVersion)
+            labelRow("Fiat Rates", value: "ExchangeRate-API")
+            labelRow("Crypto Prices", value: "CoinGecko")
+        } header: {
+            Text("About")
+        } footer: {
+            // Attribution required by both free APIs' terms of use.
+            VStack(alignment: .leading, spacing: 4) {
+                Link("Crypto data powered by CoinGecko",
+                     destination: URL(string: "https://www.coingecko.com")!)
+                Link("Rates by Exchange Rate API",
+                     destination: URL(string: "https://www.exchangerate-api.com")!)
+            }
+            .font(.caption)
+            .tint(Theme.accentText)
+            .padding(.top, 4)
         }
+    }
+
+    /// "1.0.2 (5)", read from the bundle so it never drifts from the build.
+    private var appVersion: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = info?["CFBundleVersion"] as? String ?? "—"
+        return "\(version) (\(build))"
     }
 
     private func labelRow(_ label: String, value: String) -> some View {
