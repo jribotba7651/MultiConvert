@@ -50,6 +50,8 @@
 		000000000000000000000089 /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* CurrencyRate.swift */; };
 		00000000000000000000008A /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003C /* CurrencyFormatter.swift */; };
 		00000000000000000000008B /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
+		00000000000000000000008F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000008D /* PrivacyInfo.xcprivacy */; };
+		000000000000000000000090 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000008E /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +136,8 @@
 		000000000000000000000083 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		000000000000000000000084 /* MultiConvert.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiConvert.entitlements; sourceTree = "<group>"; };
 		000000000000000000000085 /* MultiConvertWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiConvertWidget.entitlements; sourceTree = "<group>"; };
+		00000000000000000000008D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		00000000000000000000008E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +195,7 @@
 				000000000000000000000025 /* Resources */,
 				00000000000000000000008C /* Shared */,
 				000000000000000000000084 /* MultiConvert.entitlements */,
+				00000000000000000000008D /* PrivacyInfo.xcprivacy */,
 			);
 			path = MultiConvert;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				000000000000000000000053 /* Assets.xcassets */,
 				000000000000000000000082 /* Info.plist */,
 				000000000000000000000085 /* MultiConvertWidget.entitlements */,
+				00000000000000000000008E /* PrivacyInfo.xcprivacy */,
 			);
 			path = MultiConvertWidget;
 			sourceTree = "<group>";
@@ -443,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				000000000000000000000069 /* Assets.xcassets in Resources */,
+				00000000000000000000008F /* PrivacyInfo.xcprivacy in Resources */,
 				00000000000000000000006A /* MultiConvert.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				000000000000000000000076 /* Assets.xcassets in Resources */,
+				000000000000000000000090 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
