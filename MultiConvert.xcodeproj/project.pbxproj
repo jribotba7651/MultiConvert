@@ -52,6 +52,8 @@
 		00000000000000000000008B /* RateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* RateCache.swift */; };
 		00000000000000000000008F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000008D /* PrivacyInfo.xcprivacy */; };
 		000000000000000000000090 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000008E /* PrivacyInfo.xcprivacy */; };
+		000000000000000000000092 /* AdsConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000091 /* AdsConsentManager.swift */; };
+		000000000000000000000093 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 000000000000000000000094 /* GoogleUserMessagingPlatform */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,7 @@
 		000000000000000000000085 /* MultiConvertWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiConvertWidget.entitlements; sourceTree = "<group>"; };
 		00000000000000000000008D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		00000000000000000000008E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		000000000000000000000091 /* AdsConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsConsentManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BE067A7300426B80061DEC3 /* GoogleMobileAds in Frameworks */,
+				000000000000000000000093 /* GoogleUserMessagingPlatform in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +231,7 @@
 				000000000000000000000038 /* RateCache.swift */,
 				000000000000000000000039 /* ConversionEngine.swift */,
 				00000000000000000000003A /* PurchaseManager.swift */,
+				000000000000000000000091 /* AdsConsentManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -338,6 +343,10 @@
 				00000000000000000000002B /* PBXTargetDependency */,
 			);
 			name = MultiConvert;
+			packageProductDependencies = (
+				9BE067A6300426B80061DEC3 /* GoogleMobileAds */,
+				000000000000000000000094 /* GoogleUserMessagingPlatform */,
+			);
 			productName = MultiConvert;
 			productReference = 000000000000000000000077 /* MultiConvert.app */;
 			productType = "com.apple.product-type.application";
@@ -430,6 +439,7 @@
 			mainGroup = 00000000000000000000001E;
 			packageReferences = (
 				9BE067A5300426B80061DEC3 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				000000000000000000000095 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
 			);
 			productRefGroup = 000000000000000000000029 /* Products */;
 			projectDirPath = "";
@@ -492,6 +502,7 @@
 				000000000000000000000067 /* SettingsView.swift in Sources */,
 				000000000000000000000068 /* AdBannerView.swift in Sources */,
 				000000000000000000000086 /* AppGroup.swift in Sources */,
+				000000000000000000000092 /* AdsConsentManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1018,6 +1029,14 @@
 				minimumVersion = 13.6.0;
 			};
 		};
+		000000000000000000000095 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1025,6 +1044,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9BE067A5300426B80061DEC3 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		000000000000000000000094 /* GoogleUserMessagingPlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 000000000000000000000095 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
+			productName = GoogleUserMessagingPlatform;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

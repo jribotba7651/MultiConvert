@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(AppState.self) private var state
     @Environment(PurchaseManager.self) private var purchase
+    @Environment(AdsConsentManager.self) private var consent
     @Environment(\.dismiss) private var dismiss
 
     @State private var showClearCacheConfirm = false
@@ -15,6 +16,7 @@ struct SettingsView: View {
                 premiumSection
                 displaySection
                 widgetSection
+                privacySection
                 cacheSection
                 aboutSection
             }
@@ -184,6 +186,29 @@ struct SettingsView: View {
                 }
             }
             .listRowBackground(Theme.cardBackground)
+        }
+    }
+
+    /// Shown only when Google UMP requires a privacy options entry point
+    /// (e.g. users in the EEA/UK). Hidden for premium users, who get no ads.
+    @ViewBuilder
+    private var privacySection: some View {
+        if consent.isPrivacyOptionsRequired && !purchase.isPremium {
+            Section("Privacy") {
+                Button {
+                    Task { await consent.presentPrivacyOptions() }
+                } label: {
+                    HStack {
+                        Text("Privacy Choices")
+                            .foregroundStyle(Theme.primaryText)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryText)
+                    }
+                }
+                .listRowBackground(Theme.cardBackground)
+            }
         }
     }
 

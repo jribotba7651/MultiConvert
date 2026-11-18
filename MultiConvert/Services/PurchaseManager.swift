@@ -21,7 +21,7 @@ final class PurchaseManager {
                 await self?.handle(result)
             }
         }
-        Task { await checkEntitlements() }
+        Task { await refreshEntitlements() }
     }
 
     deinit { updatesTask?.cancel() }
@@ -80,12 +80,13 @@ final class PurchaseManager {
 
     func restorePurchases() async {
         try? await AppStore.sync()
-        await checkEntitlements()
+        await refreshEntitlements()
     }
 
     // MARK: - Private
 
-    private func checkEntitlements() async {
+    /// Re-reads current entitlements from StoreKit and updates `isPremium`.
+    func refreshEntitlements() async {
         var found = false
         for await result in StoreKit.Transaction.currentEntitlements {
             if case .verified(let tx) = result,
@@ -100,7 +101,7 @@ final class PurchaseManager {
     private func handle(_ result: VerificationResult<StoreKit.Transaction>) async {
         if case .verified(let tx) = result {
             await tx.finish()
-            await checkEntitlements()
+            await refreshEntitlements()
         }
     }
 

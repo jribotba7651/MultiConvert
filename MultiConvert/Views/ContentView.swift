@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(AppState.self) private var state
     @Environment(PurchaseManager.self) private var purchase
+    @Environment(AdsConsentManager.self) private var consent
     @State private var showCurrencyPicker = false
     @State private var showBaseCurrencyPicker = false
     @State private var showSettings = false
@@ -19,7 +20,7 @@ struct ContentView: View {
                 ConversionListView()
                     .frame(maxHeight: .infinity)
                 keypadPanel
-                if !purchase.isPremium {
+                if !purchase.isPremium && consent.canShowAds {
                     AdBannerView()
                         .background(Theme.appBackground)
                 }
@@ -185,4 +186,6 @@ struct ContentView: View {
     state.recentCurrencies = [.eur, .btc] + Array(Currency.allFiat.prefix(5))
     return ContentView()
         .environment(state)
+        .environment(PurchaseManager())
+        .environment(AdsConsentManager())
 }
