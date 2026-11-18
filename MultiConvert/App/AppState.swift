@@ -39,6 +39,14 @@ final class AppState {
     var fetchError: String?
     /// Sources that failed on the last refresh; their rates come from cache.
     var failedSources: [RateSource] = []
+    /// When the last refresh started (successful or not).
+    private(set) var lastRefreshAttempt: Date?
+
+    /// Rates older than this are refreshed when the app returns to foreground.
+    static let foregroundRefreshAge: TimeInterval = 15 * 60
+    /// Minimum gap between attempts, so repeated app switches while offline
+    /// don't hammer the APIs.
+    static let minimumRetryInterval: TimeInterval = 60
 
     // MARK: - Settings
     var decimalPlaces: Int = 2
@@ -194,8 +202,29 @@ final class AppState {
 
     // MARK: - Refresh
 
+    /// True when rates are missing or older than 15 minutes and no refresh
+    /// is running or was attempted in the last minute.
+    func needsForegroundRefresh(now: Date = Date()) -> Bool {
+        guard !isLoading else { return false }
+        if let attempt = lastRefreshAttempt,
+           now.timeIntervalSince(attempt) < Self.minimumRetryInterval {
+            return false
+        }
+        guard let fetchedAt = snapshot?.fetchedAt else { return true }
+        return now.timeIntervalSince(fetchedAt) > Self.foregroundRefreshAge
+    }
+
+    @MainActor
+    func refreshIfStale() async {
+        guard needsForegroundRefresh() else { return }
+        await refresh()
+    }
+
     @MainActor
     func refresh() async {
+        // Launch (.task) and the first scenePhase .active can both fire.
+        guard !isLoading else { return }
+        lastRefreshAttempt = Date()
         isLoading = true
         fetchError = nil
         do {

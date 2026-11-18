@@ -55,6 +55,7 @@
 		000000000000000000000092 /* AdsConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000091 /* AdsConsentManager.swift */; };
 		000000000000000000000093 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 000000000000000000000094 /* GoogleUserMessagingPlatform */; };
 		000000000000000000000097 /* ConversionEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000096 /* ConversionEngineTests.swift */; };
+		000000000000000000000099 /* ForegroundRefreshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000098 /* ForegroundRefreshTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		00000000000000000000008E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		000000000000000000000091 /* AdsConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsConsentManager.swift; sourceTree = "<group>"; };
 		000000000000000000000096 /* ConversionEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionEngineTests.swift; sourceTree = "<group>"; };
+		000000000000000000000098 /* ForegroundRefreshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundRefreshTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +286,7 @@
 				00000000000000000000004C /* ReplaceCurrencyTests.swift */,
 				00000000000000000000004D /* BaseInvariantTests.swift */,
 				000000000000000000000096 /* ConversionEngineTests.swift */,
+				000000000000000000000098 /* ForegroundRefreshTests.swift */,
 			);
 			path = MultiConvertTests;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				000000000000000000000071 /* ReplaceCurrencyTests.swift in Sources */,
 				000000000000000000000072 /* BaseInvariantTests.swift in Sources */,
 				000000000000000000000097 /* ConversionEngineTests.swift in Sources */,
+				000000000000000000000099 /* ForegroundRefreshTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,6 +5,7 @@ struct MultiConvertApp: App {
     @State private var appState: AppState
     @State private var purchase = PurchaseManager()
     @State private var consent = AdsConsentManager()
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         // Move pre-1.0.2 data into the App Group before AppState reads it.
@@ -26,6 +27,13 @@ struct MultiConvertApp: App {
                     async let store: Void = purchase.loadProducts()
                     async let ads: Void = startAdsFlow()
                     _ = await (rates, store, ads)
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    // Launch is covered by .task; this catches returning
+                    // from background with rates older than 15 minutes.
+                    if phase == .active {
+                        Task { await appState.refreshIfStale() }
+                    }
                 }
                 .onChange(of: purchase.isPremium) { _, isPremium in
                     // e.g. a refund revoked premium during this session.
